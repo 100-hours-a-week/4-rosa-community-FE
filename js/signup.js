@@ -7,16 +7,14 @@ import {
     validPassword,
     validNickname,
 } from '../utils/function.js';
-import {
-    userSignup,
-    checkEmail,
-    checkNickname,
-    fileUpload,
-} from '../api/signupRequest.js';
+import { userSignup } from '../api/signupRequest.js';
+// 이메일/닉네임 중복 체크 API가 회원가입 API에서 분리되면 다시 사용
+// import { checkEmail, checkNickname } from '../api/signupRequest.js';
+// 이미지 업로드 API가 백엔드에 추가되면 다시 사용
+// import { fileUpload } from '../api/signupRequest.js';
 
 const MAX_PASSWORD_LENGTH = 20;
-const HTTP_OK = 200;
-const HTTP_CREATED = 201;
+const DEFAULT_PROFILE_IMAGE_PATH = '/public/profile_default.svg';
 
 const signupData = {
     email: '',
@@ -24,6 +22,8 @@ const signupData = {
     nickname: '',
     profileImageUrl: undefined,
 };
+
+let isComposingNickname = false;
 
 const getSignupData = () => {
     const { email, password, passwordCheck, nickname } = signupData;
@@ -37,33 +37,45 @@ const getSignupData = () => {
 
 const sendSignupData = async () => {
     const { passwordCheck, ...props } = signupData;
-    if (localStorage.getItem('profileImageUrl')) {
-        props.profileImageUrl = localStorage.getItem('profileImageUrl');
-    }
+    props.profileImageUrl =
+        localStorage.getItem('profileImageUrl') ||
+        `${window.location.origin}${DEFAULT_PROFILE_IMAGE_PATH}`;
 
-    if (props.password > MAX_PASSWORD_LENGTH) {
+    if (props.password.length > MAX_PASSWORD_LENGTH) {
         Dialog('비밀번호', '비밀번호는 20자 이하로 입력해주세요.');
         return;
     }
     // signupData를 서버로 전송
-    const { status, code } = await userSignup(props);
+    const { ok, code } = await userSignup(props);
 
     // 응답이 성공적으로 왔을 경우
-    if (status === HTTP_CREATED) {
+    if (ok || code === 'user_created') {
         localStorage.removeItem('profileImageUrl');
-        location.href = '/html/login.html';
+        Dialog('회원 가입 완료', '회원 가입이 완료되었습니다.', () => {
+            location.href = '/html/login.html';
+        });
     } else {
-        if (code === 'ALREADY_EXIST_EMAIL') {
-            Dialog('회원 가입 실패', '이미 사용 중인 이메일입니다.');
-        } else if (code === 'ALREADY_EXIST_NICKNAME') {
-            Dialog('회원 가입 실패', '이미 사용 중인 닉네임입니다.');
-        } else if (code === 'INVALID_INPUT') {
+        if (code === 'email_already_exists') {
+            const helperElement = document.querySelector(
+                '.inputBox p[name="email"]',
+            );
+            if (helperElement)
+                helperElement.textContent = '*중복된 이메일 입니다.';
+            signupData.email = '';
+        } else if (code === 'nickname_already_exists') {
+            const helperElement = document.querySelector(
+                '.inputBox p[name="nickname"]',
+            );
+            if (helperElement)
+                helperElement.textContent = '*중복된 닉네임 입니다.';
+            signupData.nickname = '';
+        } else if (code === 'invalid_request') {
             Dialog('회원 가입 실패', '입력값을 확인해주세요.');
         } else {
             Dialog('회원 가입 실패', '잠시 뒤 다시 시도해 주세요', () => {});
         }
         localStorage.removeItem('profileImageUrl');
-        location.href = '/html/signup.html';
+        observeSignupData();
     }
 };
 
@@ -81,40 +93,56 @@ const changeEventHandler = async (event, uid) => {
         const helperElement = document.querySelector(
             `.inputBox p[name="${uid}"]`,
         );
-        helperElement.textContent = '';
+        if (helperElement) helperElement.textContent = '';
+        Dialog('이미지 업로드', '이미지 업로드는 아직 지원하지 않습니다.');
+        event.target.value = '';
+
+        // 이미지 업로드 API가 백엔드에 추가되면 다시 사용
+        // const formData = new FormData();
+        // formData.append('profileImage', file);
+        //
+        // try {
+        //     const { ok, data } = await fileUpload(formData);
+        //     if (!ok) throw new Error('서버 응답 오류');
+        //     localStorage.setItem('profileImageUrl', data.profileImageUrl);
+        // } catch (error) {
+        //     console.error('업로드 중 오류 발생:', error);
+        // }
     }
     observeSignupData();
 };
 
 const inputEventHandler = async (event, uid) => {
+    if (uid === 'nickname' && isComposingNickname) return;
     if (uid == 'email') {
         const value = event.target.value;
         const isValidEmail = validEmail(value);
         const helperElement = document.querySelector(
             `.inputBox p[name="${uid}"]`,
         );
-        let isComplete = false;
 
         if (!helperElement) return;
 
         if (value == '' || value == null) {
             helperElement.textContent = '*이메일을 입력해주세요.';
+            signupData.email = '';
         } else if (!isValidEmail) {
             helperElement.textContent =
                 '*올바른 이메일 주소 형식을 입력해주세요. (예: example@example.com)';
-        } else {
-            const { status } = await checkEmail(value);
-            if (status === HTTP_OK) {
-                helperElement.textContent = '';
-                isComplete = true;
-            } else {
-                helperElement.textContent = '*중복된 이메일 입니다.';
-            }
-        }
-        if (isComplete) {
-            signupData.email = value;
-        } else {
             signupData.email = '';
+        } else {
+            helperElement.textContent = '';
+            signupData.email = value;
+
+            // 이메일 중복 체크 API가 회원가입 API에서 분리되면 다시 사용
+            // const { status } = await checkEmail(value);
+            // if (status === 200) {
+            //     helperElement.textContent = '';
+            //     signupData.email = value;
+            // } else {
+            //     helperElement.textContent = '*중복된 이메일 입니다.';
+            //     signupData.email = '';
+            // }
         }
     } else if (uid == 'pw') {
         const value = event.target.value;
@@ -161,33 +189,36 @@ const inputEventHandler = async (event, uid) => {
         const helperElement = document.querySelector(
             `.inputBox p[name="${uid}"]`,
         );
-        let isComplete = false;
+
+        if (!helperElement) return;
 
         if (value == '' || value == null) {
             helperElement.textContent = '*닉네임을 입력해주세요.';
+            signupData.nickname = '';
         } else if (value.includes(' ')) {
             helperElement.textContent = '*뛰어쓰기를 없애주세요.';
+            signupData.nickname = '';
         } else if (value.length > 10) {
             helperElement.textContent =
                 '*닉네임은 최대 10자까지 작성 가능합니다.';
+            signupData.nickname = '';
         } else if (!isValidNickname) {
             helperElement.textContent =
                 '*닉네임에 특수 문자는 사용할 수 없습니다.';
-        } else {
-            const { status } = await checkNickname(value);
-
-            if (status === HTTP_OK) {
-                helperElement.textContent = '';
-                isComplete = true;
-            } else {
-                helperElement.textContent = '*중복된 닉네임 입니다.';
-            }
-        }
-
-        if (isComplete) {
-            signupData.nickname = value;
-        } else {
             signupData.nickname = '';
+        } else {
+            helperElement.textContent = '';
+            signupData.nickname = value;
+
+            // 닉네임 중복 체크 API가 회원가입 API에서 분리되면 다시 사용
+            // const { status } = await checkNickname(value);
+            // if (status === 200) {
+            //     helperElement.textContent = '';
+            //     signupData.nickname = value;
+            // } else {
+            //     helperElement.textContent = '*중복된 닉네임 입니다.';
+            //     signupData.nickname = '';
+            // }
         }
     }
     observeSignupData();
@@ -201,10 +232,20 @@ const addEventForInputElements = () => {
             element.addEventListener('change', event =>
                 changeEventHandler(event, id),
             );
-        } else {
-            element.addEventListener('input', event =>
-                inputEventHandler(event, id),
-            );
+            return;
+        }
+        element.addEventListener('input', event =>
+            inputEventHandler(event, id),
+        );
+
+        if (id === 'nickname') {
+            element.addEventListener('compositionstart', () => {
+                isComposingNickname = true;
+            });
+            element.addEventListener('compositionend', event => {
+                isComposingNickname = false;
+                inputEventHandler(event, id);
+            });
         }
     });
 };
@@ -230,40 +271,12 @@ const observeSignupData = () => {
     }
 };
 
-const uploadProfileImage = () => {
-    document
-        .getElementById('profile')
-        .addEventListener('change', async event => {
-            const file = event.target.files[0];
-            if (!file) {
-                console.log('파일이 선택되지 않았습니다.');
-                return;
-            }
-
-            const formData = new FormData();
-            formData.append('profileImage', file);
-
-            // 파일 업로드를 위한 POST 요청 실행
-            try {
-                const { ok, data } = await fileUpload(formData);
-                if (!ok) throw new Error('서버 응답 오류');
-                localStorage.setItem(
-                    'profileImageUrl',
-                    data.profileImageUrl,
-                );
-            } catch (error) {
-                console.error('업로드 중 오류 발생:', error);
-            }
-        });
-};
-
 const init = async () => {
     await authCheckReverse();
     prependChild(document.body, Header('커뮤니티', 1));
     observeSignupData();
     addEventForInputElements();
     signupClick();
-    uploadProfileImage();
 };
 
 init();
