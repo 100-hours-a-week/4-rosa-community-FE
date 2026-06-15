@@ -1,3 +1,5 @@
+import { requestJson } from './request.js';
+
 export const getServerUrl = () => {
     const configUrl =
         typeof window !== 'undefined' &&
@@ -12,8 +14,8 @@ export const getServerUrl = () => {
 
     const host = window.location.hostname;
     return host.includes('localhost')
-        ? 'http://localhost:3000'
-        : `http://${host}:3000`;
+        ? 'http://localhost:8080'
+        : `http://${host}:8080`;
 };
 
 export const resolveImageUrl = (url, fallback = null) => {
@@ -23,25 +25,36 @@ export const resolveImageUrl = (url, fallback = null) => {
 };
 
 export const serverSessionCheck = async () => {
-    const res = await fetch(`${getServerUrl()}/v1/auth/check`, {
+    // 인증 확인을 위해 현재는 사용자 정보를 조회
+    return requestJson(`${getServerUrl()}/users/me`, {
         method: 'GET',
-        credentials: 'include',
     });
-    return res;
 };
 
 export const authCheck = async () => {
-    const HTTP_OK = 200;
-    const response = await serverSessionCheck();
-    if (!response || response.status !== HTTP_OK)
+    try {
+        const result = await serverSessionCheck();
+        if (!result.ok) {
+            location.href = '/html/login.html';
+        }
+        return result;
+    } catch (error) {
+        console.error('authCheck failed:', error);
         location.href = '/html/login.html';
-    return response;
+        return { ok: false };
+    }
 };
 
 export const authCheckReverse = async () => {
-    const response = await serverSessionCheck();
-    if (response && response.ok) {
-        location.href = '/';
+    try {
+        const result = await serverSessionCheck();
+        if (result.ok) {
+            location.href = '/';
+        }
+        return result;
+    } catch (error) {
+        console.error('authCheckReverse failed:', error);
+        return { ok: false };
     }
 };
 // 이메일 유효성 검사

@@ -4,6 +4,7 @@ import {
     prependChild,
     validEmail,
 } from '../utils/function.js';
+import { setAccessToken } from '../utils/token.js';
 import { userLogin } from '../api/loginRequest.js';
 
 const HTTP_OK = 200;
@@ -22,11 +23,11 @@ const loginClick = async () => {
     const { id: email, password } = loginData;
     const helperTextElement = document.querySelector('.helperText');
 
-    const { ok, status, code } = await userLogin(email, password);
+    const { ok, status, code, data } = await userLogin(email, password);
     if (!ok) {
         updateHelperText(
             helperTextElement,
-            code === 'INVALID_INPUT'
+            code === 'invalid_request'
                 ? '*입력값을 확인해주세요.'
                 : '*입력하신 계정 정보가 정확하지 않았습니다.',
         );
@@ -41,6 +42,12 @@ const loginClick = async () => {
         return;
     }
     updateHelperText(helperTextElement);
+
+    let token = data?.accessToken;
+    if (token) {
+        token = String(token).replace(/\s+/g, '');
+        setAccessToken(token);
+    }
 
     location.href = '/html/index.html';
 };
@@ -127,7 +134,6 @@ const init = async () => {
     observeSignupData();
     prependChild(document.body, Header('커뮤니티', 0));
     eventSet();
-    localStorage.clear();
 };
 
 init();
