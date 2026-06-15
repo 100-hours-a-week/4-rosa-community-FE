@@ -31,6 +31,7 @@ const modifyData = {
 const observeData = () => {
     const { password, passwordCheck } = modifyData;
 
+    // id, pw, pwck, nickname, profile 값이 모두 존재하는지 확인
     if (!password || !passwordCheck || password !== passwordCheck) {
         button.disabled = true;
         button.style.backgroundColor = '#ACA0EB';
@@ -69,6 +70,7 @@ const blurEventHandler = async (event, uid) => {
         const helperElement = document.querySelector(
             `.inputBox p[name="${uid}"]`,
         );
+        // pw 입력란의 현재 값
         const password = modifyData.password;
 
         if (value == '' || value == null) {
