@@ -8,16 +8,18 @@ import {
     resolveImageUrl,
     validPassword,
 } from '../utils/function.js';
+import { requestJson } from '../utils/request.js';
+import { clearAuthStorage } from '../utils/token.js';
 
 const button = document.querySelector('#signupBtn');
 
 const DEFAULT_PROFILE_IMAGE = '../public/image/profile/default.jpg';
-const HTTP_CREATED = 201;
 
-const dataResponse = await authCheck();
-const data = await dataResponse.json();
+const authResponse = await authCheck();
+if (!authResponse.ok) throw new Error('사용자 정보를 불러오는데 실패하였습니다.');
+const data = authResponse.data;
 const profileImage = resolveImageUrl(
-    data.data.profileImageUrl,
+    data.profileImageUrl,
     DEFAULT_PROFILE_IMAGE,
 );
 
@@ -29,7 +31,6 @@ const modifyData = {
 const observeData = () => {
     const { password, passwordCheck } = modifyData;
 
-    // id, pw, pwck, nickname, profile 값이 모두 존재하는지 확인
     if (!password || !passwordCheck || password !== passwordCheck) {
         button.disabled = true;
         button.style.backgroundColor = '#ACA0EB';
@@ -68,7 +69,6 @@ const blurEventHandler = async (event, uid) => {
         const helperElement = document.querySelector(
             `.inputBox p[name="${uid}"]`,
         );
-        // pw 입력란의 현재 값
         const password = modifyData.password;
 
         if (value == '' || value == null) {
@@ -96,21 +96,20 @@ const addEventForInputElements = () => {
 const modifyPassword = async () => {
     const { password } = modifyData;
 
-    const { status } = await changePassword(password);
+    const { ok } = await changePassword(password);
 
-    if (status == HTTP_CREATED) {
+    if (ok) {
         try {
-            await fetch(`${getServerUrl()}/v1/auth/logout`, {
+            await requestJson(`${getServerUrl()}/auth/logout`, {
                 method: 'POST',
-                credentials: 'include',
             });
         } catch (error) {
             console.error('로그아웃 요청 실패:', error);
         }
-        localStorage.clear();
+        clearAuthStorage();
         location.href = '/html/login.html';
     } else {
-        Dialog('비밀번호 변경 실패', () => {
+        Dialog('비밀번호 변경 실패', '비밀번호 변경에 실패했습니다.', () => {
             location.href = '/html/modifyPassword.html';
         });
     }
