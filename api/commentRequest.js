@@ -1,28 +1,20 @@
 import { getServerUrl } from '../utils/function.js';
 import { requestJson } from '../utils/request.js';
 
-export const deleteComment = (postId, commentId) => {
-    const result = requestJson(
-        `${getServerUrl()}/v1/posts/${postId}/comments/${commentId}`,
-        {
-            method: 'DELETE',
-            credentials: 'include',
-        },
-    );
+export const deleteComment = commentId => {
+    const result = requestJson(`${getServerUrl()}/comments/${commentId}`, {
+        method: 'DELETE',
+    });
     return result;
 };
 
-export const updateComment = (postId, commentId, commentContent) => {
-    const result = requestJson(
-        `${getServerUrl()}/v1/posts/${postId}/comments/${commentId}`,
-        {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-            body: JSON.stringify(commentContent),
+export const updateComment = (commentId, content) => {
+    const result = requestJson(`${getServerUrl()}/comments/${commentId}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
         },
-    );
+        body: JSON.stringify({ content }),
+    });
     return result;
 };
