@@ -1,18 +1,15 @@
 import BoardItem from '../component/board/boardItem.js';
 import Dialog from '../component/dialog/dialog.js';
 import Header from '../component/header/header.js';
-import { authCheck, getServerUrl, prependChild, resolveImageUrl } from '../utils/function.js';
-import { getPosts, searchPosts } from '../api/indexRequest.js';
+import { authCheck, prependChild, resolveImageUrl } from '../utils/function.js';
+import { getPosts } from '../api/indexRequest.js';
 
 const DEFAULT_PROFILE_IMAGE = '../public/image/profile/default.jpg';
-const HTTP_NOT_AUTHORIZED = 401;
 const SCROLL_THRESHOLD = 0.9;
-const INITIAL_OFFSET = 5;
-const ITEMS_PER_LOAD = 5;
 const DEFAULT_SORT = 'recent';
 let currentKeyword = '';
 let currentSort = DEFAULT_SORT;
-let offset = 0;
+let nextCursor = null;
 let isEnd = false;
 let isProcessing = false;
 
@@ -25,16 +22,8 @@ const updateSortVisibility = () => {
 };
 
 // getBoardItem 함수
-const getBoardItem = async (offsetValue = 0, limitValue = 5) => {
-    const result =
-        currentKeyword.trim() === ''
-            ? await getPosts(offsetValue, limitValue)
-            : await searchPosts(
-                  currentKeyword,
-                  offsetValue,
-                  limitValue,
-                  currentSort,
-              );
+const getBoardItem = async (cursor = null) => {
+    const result = await getPosts(cursor);
     if (!result.ok) {
         throw new Error('Failed to load post list.');
     }
@@ -75,17 +64,19 @@ const loadBoardItems = async ({ reset = false } = {}) => {
 
     try {
         if (reset) {
-            offset = 0;
+            nextCursor = null;
             isEnd = false;
             resetBoardList();
         }
-        const items = await getBoardItem(offset, ITEMS_PER_LOAD);
+        const page = await getBoardItem(nextCursor);
+        const items = page?.content || [];
         if (!items || items.length === 0) {
             isEnd = true;
             return;
         }
         setBoardItem(items);
-        offset += ITEMS_PER_LOAD;
+        nextCursor = page.nextCursor;
+        isEnd = !page.hasNext;
     } catch (error) {
         console.error('Error fetching items:', error);
         isEnd = true;
@@ -101,8 +92,8 @@ const addSearchEvent = () => {
 
     const runSearch = async () => {
         const trimmedKeyword = searchInput.value.trim();
-        if (trimmedKeyword.length > 0 && trimmedKeyword.length < 2) {
-            Dialog('검색 실패', '검색어는 2글자 이상 입력해주세요.');
+        if (trimmedKeyword.length > 0) {
+            Dialog('검색 실패', '검색 API가 아직 제공되지 않습니다.');
             return;
         }
         currentKeyword = trimmedKeyword;
@@ -133,10 +124,6 @@ const addSortEvent = () => {
 
 // 스크롤 이벤트 추가
 const addInfinityScrollEvent = () => {
-    offset = INITIAL_OFFSET;
-    isEnd = false;
-    isProcessing = false;
-
     window.addEventListener('scroll', async () => {
         const hasScrolledToThreshold =
             window.scrollY + window.innerHeight >=
@@ -149,15 +136,11 @@ const addInfinityScrollEvent = () => {
 
 const init = async () => {
     try {
-        const response = await authCheck();
-        const data = await response.json();
-        if (response.status === HTTP_NOT_AUTHORIZED) {
-            window.location.href = '/html/login.html';
-            return;
-        }
+        const authResult = await authCheck();
+        if (!authResult.ok) return;
 
         const profileImageUrl = resolveImageUrl(
-            data.data.profileImageUrl,
+            authResult.data?.profileImageUrl,
             DEFAULT_PROFILE_IMAGE,
         );
 

@@ -3,7 +3,6 @@ import Dialog from '../component/dialog/dialog.js';
 import Header from '../component/header/header.js';
 import {
     authCheck,
-    getServerUrl,
     prependChild,
     padTo2Digits,
     resolveImageUrl,
@@ -14,7 +13,6 @@ import {
     writeComment,
     getComments,
     likePost,
-    unlikePost,
 } from '../api/boardRequest.js';
 
 const DEFAULT_PROFILE_IMAGE = '../public/image/profile/default.jpg';
@@ -42,8 +40,7 @@ const getQueryString = name => {
 
 const getBoardDetail = async postId => {
     const { ok, data } = await getPost(postId);
-    if (!ok)
-        return new Error('게시글 정보를 가져오는데 실패하였습니다.');
+    if (!ok) throw new Error('게시글 정보를 가져오는데 실패하였습니다.');
     return data;
 };
 
@@ -60,19 +57,18 @@ const setBoardDetail = data => {
     createdAtElement.textContent = formattedDate;
 
     imgElement.src = resolveImageUrl(
-        data.profileImage,
+        data.author?.profileImageUrl,
         DEFAULT_PROFILE_IMAGE,
     );
 
-    nicknameElement.textContent = data.nickname;
+    nicknameElement.textContent = data.author?.nickname || '';
 
     // 바디 정보
     const contentImgElement = document.querySelector('.contentImg');
-    const fileUrl = data.fileUrl || resolveImageUrl(data.filePath);
-    if (fileUrl) {
-        console.log(fileUrl);
+    const postImageUrl = resolveImageUrl(data.postImageUrl);
+    if (postImageUrl) {
         const img = document.createElement('img');
-        img.src = fileUrl;
+        img.src = postImageUrl;
         contentImgElement.appendChild(img);
     }
     const contentElement = document.querySelector('.content');
@@ -80,7 +76,7 @@ const setBoardDetail = data => {
 
     const likeButtonElement = document.querySelector('.likeButton');
     const likeCountElement = likeButtonElement.querySelector('h3');
-    let isLiked = Boolean(data.isLiked);
+    let isLiked = Boolean(data.liked);
     let isLikeLoading = false;
 
     likeCountElement.textContent = formatCount(data.likeCount);
@@ -91,46 +87,19 @@ const setBoardDetail = data => {
         isLikeLoading = true;
 
         try {
-            if (!isLiked) {
-                const { ok, status, code, data: likeData } = await likePost(
-                    data.id,
-                );
-                if (ok) {
-                    isLiked = true;
-                    setLikeButtonState(likeButtonElement, isLiked);
-                    if (likeData && likeData.likeCount !== undefined) {
-                        likeCountElement.textContent = formatCount(
-                            likeData.likeCount,
-                        );
-                    }
-                } else if (status === 409 && code === 'POST_ALREADY_LIKED') {
-                    isLiked = true;
-                    setLikeButtonState(likeButtonElement, isLiked);
-                } else if (status === HTTP_NOT_AUTHORIZED) {
-                    window.location.href = '/html/login.html';
-                } else {
-                    Dialog('좋아요 실패', '좋아요 처리에 실패하였습니다.');
+            const { ok, status, data: likeData } = await likePost(data.id);
+            if (ok) {
+                isLiked = Boolean(likeData?.liked);
+                setLikeButtonState(likeButtonElement, isLiked);
+                if (likeData && likeData.likeCount !== undefined) {
+                    likeCountElement.textContent = formatCount(
+                        likeData.likeCount,
+                    );
                 }
+            } else if (status === HTTP_NOT_AUTHORIZED) {
+                window.location.href = '/html/login.html';
             } else {
-                const { ok, status, code, data: likeData } = await unlikePost(
-                    data.id,
-                );
-                if (ok) {
-                    isLiked = false;
-                    setLikeButtonState(likeButtonElement, isLiked);
-                    if (likeData && likeData.likeCount !== undefined) {
-                        likeCountElement.textContent = formatCount(
-                            likeData.likeCount,
-                        );
-                    }
-                } else if (status === 409 && code === 'POST_ALREADY_UNLIKED') {
-                    isLiked = false;
-                    setLikeButtonState(likeButtonElement, isLiked);
-                } else if (status === HTTP_NOT_AUTHORIZED) {
-                    window.location.href = '/html/login.html';
-                } else {
-                    Dialog('좋아요 취소 실패', '좋아요 취소에 실패하였습니다.');
-                }
+                Dialog('좋아요 실패', '좋아요 처리에 실패하였습니다.');
             }
         } finally {
             isLikeLoading = false;
@@ -144,8 +113,12 @@ const setBoardDetail = data => {
     commentCountElement.textContent = data.commentCount.toLocaleString();
 };
 
-const setBoardModify = async (data, myInfo) => {
-    if (myInfo.idx === data.writerId) {
+const isPostOwner = data => {
+    return data.isOwner || data.owner || data.is_owner;
+};
+
+const setBoardModify = data => {
+    if (isPostOwner(data)) {
         const modifyElement = document.querySelector('.hidden');
         modifyElement.classList.remove('hidden');
 
@@ -177,18 +150,18 @@ const getBoardComment = async id => {
     const { ok, status, data } = await getComments(id);
     if (!ok) return [];
     if (status !== HTTP_OK) return [];
-    return data;
+    return data?.content || [];
 };
 
-const setBoardComment = (data, myInfo) => {
+const setBoardComment = (data, myInfo, postId) => {
     const commentListElement = document.querySelector('.commentList');
     if (commentListElement) {
         data.map(event => {
             const item = CommentItem(
                 event,
-                myInfo.userId,
-                event.postId,
+                postId,
                 event.id,
+                myInfo,
             );
             commentListElement.appendChild(item);
         });
@@ -231,13 +204,10 @@ const inputComment = async () => {
 
 const init = async () => {
     try {
-        const data = await authCheck();
-        const myInfoResult = await data.json();
-        if (data.status !== HTTP_OK) {
-            throw new Error('사용자 정보를 불러오는데 실패하였습니다.');
-        }
+        const authResult = await authCheck();
+        if (!authResult.ok) return;
 
-        const myInfo = myInfoResult.data;
+        const myInfo = authResult.data;
         const commentBtnElement = document.querySelector('.commentInputBtn');
         const textareaElement = document.querySelector(
             '.commentInputWrap textarea',
@@ -245,10 +215,6 @@ const init = async () => {
         textareaElement.addEventListener('input', inputComment);
         commentBtnElement.addEventListener('click', addComment);
         commentBtnElement.disabled = true;
-        console.log(myInfo);
-        if (data.status === HTTP_NOT_AUTHORIZED) {
-            window.location.href = '/html/login.html';
-        }
         const profileImage = resolveImageUrl(
             myInfo.profileImageUrl,
             DEFAULT_PROFILE_IMAGE,
@@ -260,12 +226,14 @@ const init = async () => {
 
         const pageData = await getBoardDetail(pageId);
 
-        if (parseInt(pageData.userId, 10) === parseInt(myInfo.userId, 10)) {
-            setBoardModify(pageData, myInfo);
+        if (isPostOwner(pageData)) {
+            setBoardModify(pageData);
         }
         setBoardDetail(pageData);
 
-        getBoardComment(pageId).then(data => setBoardComment(data, myInfo));
+        getBoardComment(pageId).then(data =>
+            setBoardComment(data, myInfo, pageId),
+        );
     } catch (error) {
         console.error(error);
     }
