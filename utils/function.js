@@ -12,8 +12,8 @@ export const getServerUrl = () => {
 
     const host = window.location.hostname;
     return host.includes('localhost')
-        ? 'http://localhost:3000'
-        : `http://${host}:3000`;
+        ? 'http://localhost:8080'
+        : `/api`;
 };
 
 export const resolveImageUrl = (url, fallback = null) => {
