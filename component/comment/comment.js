@@ -3,22 +3,74 @@ import Dialog from '../dialog/dialog.js';
 import { deleteComment, updateComment } from '../../api/commentRequest.js';
 
 const DEFAULT_PROFILE_IMAGE = '../public/image/profile/default.jpg';
-const HTTP_OK = 200;
 
-const CommentItem = (data, writerId, postId, commentId) => {
+const normalizeId = value => {
+    if (value === undefined || value === null) return null;
+    return String(value);
+};
+
+const getFirstValue = values => {
+    return values.find(value => value !== undefined && value !== null);
+};
+
+const isTruthyOwner = value => value === true || value === 'true' || value === 1;
+
+const isCommentOwner = (data, myInfo) => {
+    if (
+        isTruthyOwner(data.isOwner) ||
+        isTruthyOwner(data.owner) ||
+        isTruthyOwner(data.is_owner)
+    ) {
+        return true;
+    }
+
+    const commentOwnerId = normalizeId(
+        getFirstValue([
+            data.userId,
+            data.writerId,
+            data.authorId,
+            data.memberId,
+            data.user?.id,
+            data.user?.userId,
+            data.author?.id,
+            data.author?.userId,
+            data.author?.idx,
+            data.author?.memberId,
+        ]),
+    );
+    const myId = normalizeId(
+        getFirstValue([
+            myInfo?.id,
+            myInfo?.userId,
+            myInfo?.idx,
+            myInfo?.memberId,
+        ]),
+    );
+
+    if (commentOwnerId && myId && commentOwnerId === myId) {
+        return true;
+    }
+
+    return Boolean(
+        data.author?.nickname &&
+            myInfo?.nickname &&
+            data.author.nickname === myInfo.nickname,
+    );
+};
+
+const CommentItem = (data, postId, commentId, myInfo) => {
     const CommentDelete = () => {
         Dialog(
             '댓글을 삭제하시겠습니까?',
             '삭제한 내용은 복구 할 수 없습니다.',
             async () => {
-                const { ok, status } = await deleteComment(postId, commentId);
+                const { ok } = await deleteComment(commentId);
                 if (!ok) {
                     Dialog('삭제 실패', '댓글 삭제에 실패하였습니다.');
                     return;
                 }
 
-                if (status === HTTP_OK)
-                    location.href = '/html/board.html?id=' + postId;
+                location.href = '/html/board.html?id=' + postId;
             },
         );
     };
@@ -27,6 +79,7 @@ const CommentItem = (data, writerId, postId, commentId) => {
         // 댓글 내용을 보여주는 p 태그 찾기
         const p = commentInfoWrap.querySelector('p');
         if (!p) return;
+
         // 현재 댓글 내용 저장
         const originalContent = p.innerHTML.replace(/<br>/g, '\n');
 
@@ -34,15 +87,12 @@ const CommentItem = (data, writerId, postId, commentId) => {
         const textarea = document.createElement('textarea');
         textarea.className = 'commentEditTextarea';
         textarea.value = originalContent;
-        textarea.maxLength = 1500; // 최대 글자 수 제한
+        textarea.maxLength = 1500;
 
         // 사용자가 입력할 때마다 글자 수 체크
         textarea.addEventListener('input', () => {
             if (textarea.value.length > 1500) {
-                // 1500자를 초과하는 경우, 초과분을 자름
                 textarea.value = textarea.value.substring(0, 1500);
-                // 사용자에게 경고 메시지를 보여주는 방법도 고려할 수 있음
-                // alert('댓글은 1500자를 초과할 수 없습니다.');
             }
         });
 
@@ -61,13 +111,8 @@ const CommentItem = (data, writerId, postId, commentId) => {
                 Dialog('수정 실패', '댓글은 1자 이상 입력해주세요.');
                 return;
             }
-            // 서버로 수정된 댓글 내용 전송하는 로직
             const updatedContent = textarea.value;
-            const sendData = {
-                commentContent: updatedContent,
-            };
-
-            const { ok } = await updateComment(postId, commentId, sendData);
+            const { ok } = await updateComment(commentId, updatedContent);
             if (!ok)
                 return Dialog('수정 실패', '댓글 수정에 실패하였습니다.');
 
@@ -79,9 +124,8 @@ const CommentItem = (data, writerId, postId, commentId) => {
         cancelButton.className = 'commentEditCancel';
         cancelButton.textContent = '취소';
         cancelButton.onclick = () => {
-            // textarea를 원래의 p 태그로 다시 변경
-            p.innerHTML = originalContent.replace(/\n/g, '<br>'); // 원래 내용으로 복원
-            commentInfoWrap.replaceChild(p, editWrap); // 편집 영역을 p로 교체
+            p.innerHTML = originalContent.replace(/\n/g, '<br>');
+            commentInfoWrap.replaceChild(p, editWrap);
         };
 
         editActions.appendChild(cancelButton);
@@ -122,10 +166,7 @@ const CommentItem = (data, writerId, postId, commentId) => {
     h4.textContent = formattedDate;
     infoDiv.appendChild(h4);
 
-    if (
-        data.author &&
-        parseInt(data.author.userId, 10) === parseInt(writerId, 10)
-    ) {
+    if (isCommentOwner(data, myInfo)) {
         const buttonWrap = document.createElement('span');
 
         const deleteButton = document.createElement('button');

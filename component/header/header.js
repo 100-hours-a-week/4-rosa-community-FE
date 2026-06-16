@@ -1,4 +1,6 @@
 import { getServerUrl } from '../../utils/function.js';
+import { requestJson } from '../../utils/request.js';
+import { clearAuthStorage } from '../../utils/token.js';
 
 const headerDropdownMenu = () => {
     const wrap = document.createElement('div');
@@ -15,11 +17,11 @@ const headerDropdownMenu = () => {
     modifyPasswordLink.href = '/html/modifyPassword.html';
     logoutLink.addEventListener('click', async () => {
         try {
-            await fetch(`${getServerUrl()}/v1/auth/logout`, {
+            await requestJson(`${getServerUrl()}/auth/logout`, {
                 method: 'POST',
-                credentials: 'include',
             });
         } finally {
+            clearAuthStorage();
             location.href = '/html/login.html';
         }
     });
@@ -72,7 +74,7 @@ const Header = (
         const Drop = headerDropdownMenu();
         Drop.classList.add('none');
 
-        profileElement.addEventListener('click', () => {
+        profileElement.addEventListener('click', event => {
             Drop.classList.toggle('none');
             event.stopPropagation();
         });
