@@ -1,0 +1,32 @@
+name: ktb-community
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: community-frontend:1.0.0
+    expose:
+      - "3000"
+    env_file:
+      - /mnt/efs/config/frontend.env #.env 파일 경로를 EFS 마운트 경로로
+    networks:
+      - ktb-frontend-network
+    restart: unless-stopped
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: community-nginx:1.0.0
+    depends_on:
+      - frontend # frontend 서비스가 먼저 시작되도록 설정
+    ports:
+      - "80:80" # ALB에서 접근할 수 있도록 80번 포트로 매핑 
+    networks:
+      - ktb-frontend-network
+    restart: unless-stopped
+
+networks:
+  ktb-frontend-network: # frontend와 nginx가 같은 네트워크를 사용하도록 설정
+    driver: bridge
