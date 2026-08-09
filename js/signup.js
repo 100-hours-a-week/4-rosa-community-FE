@@ -45,9 +45,13 @@ const sendSignupData = async () => {
 
     // 응답이 성공적으로 왔을 경우
     if (ok || code === 'user_created') {
-        Dialog('회원 가입 완료', '회원 가입이 완료되었습니다.', () => {
-            location.href = '/html/login.html';
-        });
+        Dialog(
+            '회원 가입 완료',
+            '프로필 사진은 로그인 후 프로필 설정에서 등록할 수 있어요.',
+            () => {
+                location.href = '/html/login.html';
+            },
+        );
     } else {
         if (code === 'email_already_exists') {
             const helperElement = document.querySelector(
