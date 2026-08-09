@@ -51,7 +51,7 @@ const observeSignupData = () => {
         submitButton.style.backgroundColor = '#9ca5a9';
     } else {
         submitButton.disabled = false;
-        submitButton.style.backgroundColor = '#122a38';
+        submitButton.style.backgroundColor = '#0c1e2e';
     }
 };
 

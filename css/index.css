@@ -35,7 +35,7 @@
 
 .feedHero .eyebrow {
     margin-bottom: 18px;
-    color: #e9a47e;
+    color: #75d5d1;
 }
 
 .feedHero h1 {
@@ -120,12 +120,12 @@ html.categoryPage .feed-page .write {
 }
 
 .searchInput::placeholder {
-    color: #9c9186;
+    color: #8797a1;
 }
 
 .searchInput:focus {
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(18, 42, 56, 0.11);
+    box-shadow: 0 0 0 3px rgba(12, 30, 46, 0.11);
 }
 
 .searchButton {
@@ -223,9 +223,9 @@ html.categoryPage .feed-page .write {
 .skeletonBlock {
     background: linear-gradient(
         90deg,
-        #e1d9cf 25%,
-        #f1ebe3 50%,
-        #e1d9cf 75%
+        #dce5e8 25%,
+        #eef4f5 50%,
+        #dce5e8 75%
     );
     background-size: 200% 100%;
     animation: skeletonShimmer 1.4s ease-in-out infinite;
@@ -393,7 +393,7 @@ html.categoryPage .feed-page .write {
     padding: 42px 24px;
     text-align: center;
     background: rgba(255, 255, 255, 0.54);
-    border: 1px dashed rgba(23, 16, 10, 0.18);
+    border: 1px dashed rgba(12, 30, 46, 0.18);
     border-radius: var(--radius-md);
 }
 

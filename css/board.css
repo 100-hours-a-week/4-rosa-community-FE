@@ -62,15 +62,19 @@
 }
 
 .detailCategory[data-category='INFO'] {
-    background: #315c70;
+    background: #0a9292;
+}
+
+.detailCategory[data-category='REVIEW'] {
+    background: #311fa8;
 }
 
 .detailCategory[data-category='QNA'] {
-    background: #9a7125;
+    background: #4d5ec4;
 }
 
 .detailCategory[data-category='COMPANY'] {
-    background: #4f6952;
+    background: #176b73;
 }
 
 .head .title {
@@ -140,7 +144,7 @@
 
 .mod button:hover {
     color: var(--color-accent);
-    border-color: rgba(191, 83, 25, 0.42);
+    border-color: rgba(10, 146, 146, 0.42);
 }
 
 #deleteBtn:hover {
@@ -158,7 +162,7 @@
 
 .body .content {
     min-height: 180px;
-    color: #3f3933;
+    color: #31444f;
     font-size: 16px;
     line-height: 1.9;
     white-space: pre-wrap;
@@ -200,7 +204,7 @@ button.countItem {
 }
 
 .countIcon {
-    color: #8c8176;
+    color: #758792;
     flex: 0 0 auto;
     width: 16px;
     height: 16px;
@@ -216,7 +220,7 @@ button.countItem {
 .likeButton.is-active {
     color: var(--color-accent);
     background: var(--color-accent-soft);
-    border-color: rgba(191, 83, 25, 0.28);
+    border-color: rgba(10, 146, 146, 0.28);
 }
 
 .likeButton.is-active .countIcon {
@@ -263,7 +267,7 @@ button.countItem {
 }
 
 .commentInputWrap textarea::placeholder {
-    color: #9b9187;
+    color: #8898a2;
 }
 
 .commentInputWrap > div {

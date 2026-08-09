@@ -1,19 +1,21 @@
 @import url('../../component/dialog/dialog.css');
 
 :root {
-    --color-bg: #f2ebe0;
+    --color-bg: #f2f6f7;
     --color-surface: #ffffff;
-    --color-surface-soft: #f7f3ed;
-    --color-primary: #122a38;
-    --color-primary-soft: #1c3e50;
-    --color-accent: #bf5319;
-    --color-accent-soft: #f7e8df;
-    --color-text: #17100a;
-    --color-muted: #74695d;
-    --color-border: rgba(23, 16, 10, 0.13);
+    --color-surface-soft: #edf3f4;
+    --color-primary: #0c1e2e;
+    --color-primary-soft: #17364a;
+    --color-accent: #0a9292;
+    --color-accent-soft: #e0f3f2;
+    --color-secondary: #311fa8;
+    --color-secondary-soft: #ebe9fa;
+    --color-text: #102431;
+    --color-muted: #617581;
+    --color-border: rgba(12, 30, 46, 0.13);
     --color-danger: #c43b42;
-    --shadow-sm: 0 8px 24px rgba(18, 42, 56, 0.07);
-    --shadow-md: 0 18px 48px rgba(18, 42, 56, 0.12);
+    --shadow-sm: 0 8px 24px rgba(12, 30, 46, 0.07);
+    --shadow-md: 0 18px 48px rgba(12, 30, 46, 0.13);
     --radius-sm: 8px;
     --radius-md: 14px;
     --radius-lg: 22px;
@@ -101,7 +103,7 @@ img {
 }
 
 :focus-visible {
-    outline: 3px solid rgba(191, 83, 25, 0.32);
+    outline: 3px solid rgba(10, 146, 146, 0.3);
     outline-offset: 2px;
 }
 

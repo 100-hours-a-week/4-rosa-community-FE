@@ -9,7 +9,7 @@
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    box-shadow: 0 4px 18px rgba(18, 42, 56, 0.04);
+    box-shadow: 0 4px 18px rgba(12, 30, 46, 0.04);
     transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
 
@@ -50,19 +50,19 @@
 }
 
 .storyBadge[data-category='INFO'] {
-    background: #315c70;
+    background: #0a9292;
 }
 
 .storyBadge[data-category='REVIEW'] {
-    background: var(--color-accent);
+    background: #311fa8;
 }
 
 .storyBadge[data-category='QNA'] {
-    background: #9a7125;
+    background: #4d5ec4;
 }
 
 .storyBadge[data-category='COMPANY'] {
-    background: #4f6952;
+    background: #176b73;
 }
 
 .boardContent {
@@ -156,7 +156,7 @@
 
 .boardItem .date {
     margin-top: 4px;
-    color: #9a8f84;
+    color: #8898a2;
     font-size: 10px;
 }
 
@@ -295,15 +295,15 @@
 }
 
 .boardList.listFeed .listCategoryBadge[data-category='INFO'] {
-    background: #315c70;
+    background: #0a9292;
 }
 
 .boardList.listFeed .listCategoryBadge[data-category='QNA'] {
-    background: #9a7125;
+    background: #4d5ec4;
 }
 
 .boardList.listFeed .listCategoryBadge[data-category='COMPANY'] {
-    background: #4f6952;
+    background: #176b73;
 }
 
 .boardList.listFeed .boardItem .title {

@@ -19,13 +19,13 @@
     width: min(100%, 410px);
     padding: 32px;
     background: var(--color-surface, #fff);
-    border: 1px solid var(--color-border, rgba(23, 16, 10, 0.13));
+    border: 1px solid var(--color-border, rgba(12, 30, 46, 0.13));
     border-radius: 16px;
     box-shadow: 0 24px 70px rgba(8, 22, 30, 0.25);
 }
 
 .dialog-title {
-    color: var(--color-text, #17100a);
+    color: var(--color-text, #102431);
     font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
     font-size: 24px;
     font-weight: 600;
@@ -34,7 +34,7 @@
 }
 
 .dialog-description {
-    color: var(--color-muted, #74695d);
+    color: var(--color-muted, #617581);
     font-size: 14px;
     line-height: 1.65;
     text-align: left;
@@ -57,19 +57,19 @@
 }
 
 .dialog-button-cancel {
-    color: var(--color-muted, #74695d);
-    background: var(--color-surface-soft, #f7f3ed);
-    border: 1px solid var(--color-border, rgba(23, 16, 10, 0.13));
+    color: var(--color-muted, #617581);
+    background: var(--color-surface-soft, #edf3f4);
+    border: 1px solid var(--color-border, rgba(12, 30, 46, 0.13));
 }
 
 .dialog-button-submit {
     color: #fff;
-    background: var(--color-primary, #122a38);
-    border: 1px solid var(--color-primary, #122a38);
+    background: var(--color-primary, #0c1e2e);
+    border: 1px solid var(--color-primary, #0c1e2e);
 }
 
 .dialog-button-submit:hover {
-    background: var(--color-primary-soft, #1c3e50);
+    background: var(--color-primary-soft, #17364a);
 }
 
 .dialog-description-textarea {
@@ -77,9 +77,9 @@
     height: 180px;
     padding: 12px;
     resize: vertical;
-    color: var(--color-text, #17100a);
-    background: var(--color-surface-soft, #f7f3ed);
-    border: 1px solid var(--color-border, rgba(23, 16, 10, 0.13));
+    color: var(--color-text, #102431);
+    background: var(--color-surface-soft, #edf3f4);
+    border: 1px solid var(--color-border, rgba(12, 30, 46, 0.13));
     border-radius: 8px;
     outline: 0;
 }

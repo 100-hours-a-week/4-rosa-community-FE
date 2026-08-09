@@ -66,7 +66,7 @@ const observeData = () => {
         authData.profileImageUrl !== changeData.profileImageUrl
     ) {
         button.disabled = false;
-        button.style.backgroundColor = '#122a38';
+        button.style.backgroundColor = '#0c1e2e';
     } else {
         button.disabled = true;
         button.style.backgroundColor = '#9ca5a9';

@@ -220,7 +220,7 @@ const inputComment = async () => {
         commentBtnElement.style.backgroundColor = '#9ca5a9';
     } else {
         commentBtnElement.disabled = false;
-        commentBtnElement.style.backgroundColor = '#122a38';
+        commentBtnElement.style.backgroundColor = '#0c1e2e';
     }
 };
 

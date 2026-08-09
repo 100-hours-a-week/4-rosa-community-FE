@@ -29,7 +29,7 @@
 }
 
 .commentInfoWrap > p {
-    color: #514941;
+    color: #3c505b;
     font-size: 14px;
     line-height: 1.7;
 }
@@ -70,7 +70,7 @@
 
 .commentInfoHeader span button:hover {
     color: var(--color-accent);
-    border-color: rgba(191, 83, 25, 0.35);
+    border-color: rgba(10, 146, 146, 0.35);
 }
 
 .commentEditWrap {

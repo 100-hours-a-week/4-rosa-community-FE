@@ -3,10 +3,10 @@ header.siteHeader {
     top: 0;
     z-index: 100;
     width: 100%;
-    color: #f2ebe0;
-    background: rgba(18, 42, 56, 0.97);
+    color: #eef8f8;
+    background: rgba(12, 30, 46, 0.97);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 3px 18px rgba(18, 42, 56, 0.12);
+    box-shadow: 0 3px 18px rgba(12, 30, 46, 0.14);
     backdrop-filter: blur(14px);
 }
 
@@ -23,14 +23,14 @@ header.siteHeader {
 .headerStart {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 6px;
     justify-self: start;
 }
 
 .brand {
     display: inline-flex;
     flex-direction: column;
-    color: #f2ebe0;
+    color: #eef8f8;
     line-height: 1;
 }
 
@@ -43,7 +43,7 @@ header.siteHeader {
 
 .brandTagline {
     margin-top: 5px;
-    color: rgba(242, 235, 224, 0.52);
+    color: rgba(238, 248, 248, 0.54);
     font-size: 8px;
     font-weight: 700;
     letter-spacing: 0.14em;
@@ -63,7 +63,7 @@ header.siteHeader {
     align-items: center;
     height: 100%;
     padding: 0 18px;
-    color: rgba(242, 235, 224, 0.58);
+    color: rgba(238, 248, 248, 0.6);
     font-size: 13px;
     font-weight: 600;
     transition: color 0.2s ease;
@@ -85,7 +85,7 @@ header.siteHeader {
 
 .categoryLink:hover,
 .categoryLink.isActive {
-    color: #f2ebe0;
+    color: #eef8f8;
 }
 
 .categoryLink.isActive::after {
@@ -102,8 +102,8 @@ header.siteHeader {
 
 .headerWriteLink {
     padding: 8px 14px;
-    color: #f2ebe0;
-    border: 1px solid rgba(242, 235, 224, 0.24);
+    color: #eef8f8;
+    border: 1px solid rgba(238, 248, 248, 0.26);
     border-radius: 999px;
     font-size: 12px;
     font-weight: 600;
@@ -111,24 +111,23 @@ header.siteHeader {
 }
 
 .headerWriteLink:hover {
-    border-color: rgba(242, 235, 224, 0.5);
-    background: rgba(242, 235, 224, 0.08);
+    border-color: rgba(238, 248, 248, 0.52);
+    background: rgba(238, 248, 248, 0.09);
 }
 
 header .backButton {
     display: grid;
     place-items: center;
-    width: 36px;
-    height: 36px;
+    width: 28px;
+    height: 32px;
     padding: 0;
-    border: 1px solid rgba(242, 235, 224, 0.16);
-    border-radius: 50%;
+    border: 0;
     background: transparent;
 }
 
 header .back {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     filter: invert(1);
     opacity: 0.82;
 }
@@ -140,7 +139,7 @@ header .profile {
 header .profile > img {
     width: 36px;
     height: 36px;
-    border: 2px solid rgba(242, 235, 224, 0.28);
+    border: 2px solid rgba(238, 248, 248, 0.3);
     border-radius: 50%;
     object-fit: cover;
     transition: border-color 0.2s ease;
@@ -216,7 +215,7 @@ header .drop a:last-child {
         justify-self: stretch;
         justify-content: space-between;
         width: 100%;
-        border-top: 1px solid rgba(242, 235, 224, 0.08);
+        border-top: 1px solid rgba(238, 248, 248, 0.09);
     }
 
     .categoryLink {
@@ -236,6 +235,6 @@ header .drop a:last-child {
     }
 
     .headerStart {
-        gap: 9px;
+        gap: 5px;
     }
 }
