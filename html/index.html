@@ -1,91 +1,106 @@
 <!doctype html>
 <html lang="kr">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (() => {
+        const categoryCode = new URLSearchParams(window.location.search).get(
+          'categoryCode',
+        );
+        if (['INFO', 'REVIEW', 'QNA', 'COMPANY'].includes(categoryCode)) {
+          document.documentElement.classList.add('categoryPage');
+        }
+      })();
+    </script>
     <script src="/config.js"></script>
-    <link
-            rel="stylesheet"
-            href="../css/index.css"
-            crossorigin="anonymous"
-    />
-    <title>STARTUPCODE Edu Community</title>
-</head>
-<body>
-<section class="wrap">
-    <div class="write">
-        <h2>
-            안녕하세요, <br />
-            커뮤니티 <b>게시판</b> 입니다.
-        </h2>
+    <link rel="stylesheet" href="../css/index.css" crossorigin="anonymous" />
+    <title>TRIPFEED — 여행 기록 및 정보 공유 커뮤니티</title>
+  </head>
+  <body class="site-page feed-page">
+    <section class="wrap">
+      <section class="feedHero" aria-labelledby="feedHeroTitle">
+        <div class="feedHeroOverlay"></div>
+        <div class="feedHeroContent">
+          <p class="eyebrow">TRIPFEED · TRAVEL COMMUNITY</p>
+          <h1 id="feedHeroTitle">여행을 찾고, 기록하고,<br />함께하세요!</h1>
+          <p>필요한 정보를 찾고 나만의 여행을 피드에 공유하세요. 궁금한 건 묻고, 마음 맞는 동행도 만날 수 있어요.</p>
+        </div>
+      </section>
+      <div class="write">
+        <div class="sectionIntro">
+          <div>
+            <p class="eyebrow" id="feedEyebrow">ALL STORIES</p>
+            <h2 id="feedTitle">전체 여행글</h2>
+          </div>
+          <p class="sectionDescription" id="feedDescription">
+            정보부터 후기, 질문과 동행까지 여행자들의 이야기를 만나보세요.
+          </p>
+        </div>
         <div class="searchRow">
-            <div class="searchBox">
-                <input
-                    id="searchInput"
-                    class="searchInput"
-                    type="text"
-                    placeholder="검색어를 입력해주세요"
-                    aria-label="게시글 검색"
-                    minlength="2"
+          <div class="searchBox">
+            <input
+              id="searchInput"
+              class="searchInput"
+              type="text"
+              placeholder="이야기 검색"
+              aria-label="게시글 검색"
+              minlength="2"
+            />
+            <button class="searchButton" type="button" aria-label="검색">
+              <svg
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                aria-hidden="true"
+              >
+                <circle
+                  cx="11"
+                  cy="11"
+                  r="7"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
                 />
-                <button
-                    class="searchButton"
-                    type="button"
-                    aria-label="검색"
-                >
-                    <svg
-                        viewBox="0 0 24 24"
-                        width="18"
-                        height="18"
-                        aria-hidden="true"
-                    >
-                        <circle
-                            cx="11"
-                            cy="11"
-                            r="7"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                        />
-                        <line
-                            x1="16.65"
-                            y1="16.65"
-                            x2="21"
-                            y2="21"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                        />
-                    </svg>
-                </button>
-            </div>
-            <a href="./board-write.html" id="writeLink">게시글 작성</a>
+                <line
+                  x1="16.65"
+                  y1="16.65"
+                  x2="21"
+                  y2="21"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </button>
+          </div>
+          <a href="./board-write.html" id="writeLink">새 글 올리기</a>
         </div>
         <div class="sortRow isHidden" id="searchSortRow" aria-hidden="true">
-            <div class="sortBox">
-                <svg
-                    class="sortIcon"
-                    viewBox="0 0 24 24"
-                    width="16"
-                    height="16"
-                    aria-hidden="true"
-                >
-                    <path
-                        d="M3 5h18l-7 8v5l-4 2v-7L3 5z"
-                        fill="currentColor"
-                    />
-                </svg>
-                <span class="sortLabel">정렬</span>
-                <select id="searchSortSelect" class="sortSelect" aria-label="검색 정렬">
-                    <option value="recent">최신순</option>
-                    <option value="relevance">정확도순</option>
-                </select>
-            </div>
+          <div class="sortBox">
+            <svg
+              class="sortIcon"
+              viewBox="0 0 24 24"
+              width="16"
+              height="16"
+              aria-hidden="true"
+            >
+              <path d="M3 5h18l-7 8v5l-4 2v-7L3 5z" fill="currentColor" />
+            </svg>
+            <span class="sortLabel">정렬</span>
+            <select
+              id="searchSortSelect"
+              class="sortSelect"
+              aria-label="검색 정렬"
+            >
+              <option value="recent">최신순</option>
+              <option value="relevance">정확도순</option>
+            </select>
+          </div>
         </div>
-    </div>
-    <section class="boardList"></section>
-</section>
-<div class="background"></div>
-</body>
-<script src="../js/index.js" type="module"></script>
+      </div>
+      <section class="boardList" aria-label="게시글 목록"></section>
+    </section>
+    <script src="../js/index.js" type="module"></script>
+  </body>
 </html>
