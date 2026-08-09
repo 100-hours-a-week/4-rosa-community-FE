@@ -60,7 +60,7 @@ const preloadImage = imageUrl => {
     });
 };
 
-const loadPostImage = async (container, imageUrl) => {
+const loadPostImage = async (container, imageUrl, usePhotoLayout = false) => {
     container.replaceChildren();
     const imageCandidates = [
         ...new Set([imageUrl, DEFAULT_HERO_IMAGE].filter(Boolean)),
@@ -69,9 +69,22 @@ const loadPostImage = async (container, imageUrl) => {
     for (const candidate of imageCandidates) {
         const image = await preloadImage(candidate);
         if (!image) continue;
-        container.replaceChildren(image);
-        return;
+        const isPostImage = candidate === imageUrl;
+        image.className = 'contentImgMain';
+
+        if (usePhotoLayout) {
+            const backdropImage = image.cloneNode();
+            backdropImage.className = 'contentImgBackdrop';
+            backdropImage.alt = '';
+            backdropImage.setAttribute('aria-hidden', 'true');
+            container.replaceChildren(backdropImage, image);
+        } else {
+            container.replaceChildren(image);
+        }
+        return isPostImage;
     }
+
+    return false;
 };
 
 const renderDetailError = () => {
@@ -106,6 +119,9 @@ const getBoardDetail = async postId => {
 };
 
 const setBoardDetail = async data => {
+    const isReview = data.category?.code === 'REVIEW';
+    document.body.classList.toggle('is-review-detail', isReview);
+
     // 헤드 정보
     const categoryElement = document.querySelector('.detailCategory');
     const titleElement = document.querySelector('.title');
@@ -146,7 +162,11 @@ const setBoardDetail = async data => {
     // 바디 정보
     const contentImgElement = document.querySelector('.contentImg');
     const postImageUrl = resolveImageUrl(data.postImageUrl);
-    const postImageReady = loadPostImage(contentImgElement, postImageUrl);
+    const postImageReady = loadPostImage(
+        contentImgElement,
+        postImageUrl,
+        isReview,
+    );
     const contentElement = document.querySelector('.content');
     contentElement.textContent = data.content;
 
@@ -189,6 +209,14 @@ const setBoardDetail = async data => {
     commentCountElement.textContent = data.commentCount.toLocaleString();
 
     await postImageReady;
+    document.body.classList.toggle('has-review-image', isReview);
+    if (isReview) {
+        const writerElement = document.querySelector('.writerWrap');
+        const heroElement = document.querySelector('.detailHero');
+        if (writerElement && heroElement) {
+            heroElement.appendChild(writerElement);
+        }
+    }
 };
 
 const isPostOwner = data => {

@@ -79,6 +79,10 @@
     object-fit: cover;
 }
 
+.contentImgBackdrop {
+    display: none;
+}
+
 .detailHeroShade {
     position: absolute;
     inset: 0;
@@ -514,6 +518,244 @@ button.countItem {
     width: 58%;
 }
 
+/* 사진이 있는 후기는 독립적인 피드 뷰어로 표시한다. */
+.detail-page.is-review-detail.has-review-image .detailLayout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(380px, 0.85fr);
+    width: min(calc(100% - 48px), 1240px);
+    height: clamp(660px, calc(100svh - 112px), 820px);
+    min-height: 0;
+    margin: 48px auto 64px;
+    overflow: hidden;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 18px;
+    box-shadow: var(--shadow-md);
+}
+
+.detail-page.is-review-detail.has-review-image .detailHero {
+    height: 100%;
+    background: #101c21;
+}
+
+.detail-page.is-review-detail.has-review-image .detailHero .contentImg {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    isolation: isolate;
+}
+
+.detail-page.is-review-detail.has-review-image .contentImgBackdrop {
+    position: absolute;
+    inset: -36px;
+    display: block;
+    width: calc(100% + 72px);
+    height: calc(100% + 72px);
+    object-fit: cover;
+    filter: blur(32px);
+    opacity: 0.38;
+    transform: scale(1.05);
+}
+
+.detail-page.is-review-detail.has-review-image .contentImgMain {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    object-fit: cover;
+}
+
+.detail-page.is-review-detail.has-review-image .detailHeroShade {
+    z-index: 2;
+    background: linear-gradient(
+        0deg,
+        rgba(7, 20, 27, 0.28),
+        transparent 30%,
+        rgba(7, 20, 27, 0.08)
+    );
+}
+
+.detail-page.is-review-detail.has-review-image .detailWrap {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+}
+
+.detail-page.is-review-detail.has-review-image .detailCard {
+    margin: 0;
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.detail-page.is-review-detail.has-review-image .head {
+    display: flex;
+    flex-direction: column;
+    padding: 24px 24px 18px;
+}
+
+.detail-page.is-review-detail.has-review-image .writerWrap {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 3;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 9px;
+    min-height: 0;
+    margin: 0;
+    padding: 44px 22px 17px;
+    background: linear-gradient(
+        0deg,
+        rgba(6, 17, 23, 0.72),
+        rgba(6, 17, 23, 0)
+    );
+    border: 0;
+}
+
+.detail-page.is-review-detail.has-review-image .profileImg,
+.detail-page.is-review-detail.has-review-image .profileImg .img {
+    width: 34px;
+    height: 34px;
+}
+
+.detail-page.is-review-detail.has-review-image .nickname {
+    color: #fff;
+    font-size: 13px;
+}
+
+.detail-page.is-review-detail.has-review-image .createdAt {
+    margin-top: 1px;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 9px;
+}
+
+.detail-page.is-review-detail.has-review-image .head .eyebrow {
+    align-self: flex-start;
+    margin-bottom: 8px;
+}
+
+.detail-page.is-review-detail.has-review-image .head .title {
+    max-width: none;
+    font-size: 24px;
+    line-height: 1.34;
+    letter-spacing: -0.035em;
+}
+
+.detail-page.is-review-detail.has-review-image .mod {
+    gap: 4px;
+    width: auto;
+    margin: 0 0 0 auto;
+}
+
+.detail-page.is-review-detail.has-review-image .mod button {
+    min-height: 26px;
+    padding: 0 7px;
+    color: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    font-size: 10px;
+}
+
+.detail-page.is-review-detail.has-review-image .mod button:hover,
+.detail-page.is-review-detail.has-review-image #deleteBtn:hover {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.62);
+}
+
+.detail-page.is-review-detail.has-review-image .body {
+    padding: 0 24px 22px;
+}
+
+.detail-page.is-review-detail.has-review-image .body .content {
+    min-height: 0;
+    color: #354b56;
+    font-size: 14px;
+    line-height: 1.75;
+}
+
+.detail-page.is-review-detail.has-review-image .bodyWrap {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 0;
+}
+
+.detail-page.is-review-detail.has-review-image .commentWrap {
+    gap: 4px;
+}
+
+.detail-page.is-review-detail.has-review-image .countItem {
+    min-height: 34px;
+    padding: 0 8px;
+    background: transparent;
+    border-color: transparent;
+}
+
+.detail-page.is-review-detail.has-review-image .countItem p {
+    display: none;
+}
+
+.detail-page.is-review-detail.has-review-image .comment {
+    gap: 16px;
+    padding: 22px 26px 26px;
+    border-top: 1px solid var(--color-border);
+}
+
+.detail-page.is-review-detail.has-review-image .commentHeading {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.detail-page.is-review-detail.has-review-image .commentHeading .eyebrow {
+    order: 2;
+    margin: 0;
+    font-size: 9px;
+}
+
+.detail-page.is-review-detail.has-review-image .commentHeading h2 {
+    font-size: 19px;
+}
+
+.detail-page.is-review-detail.has-review-image .commentInputWrap {
+    border-radius: 10px;
+    box-shadow: none;
+}
+
+.detail-page.is-review-detail.has-review-image .commentInputWrap textarea {
+    min-height: 82px;
+    padding: 13px;
+    font-size: 13px;
+}
+
+.detail-page.is-review-detail.has-review-image .commentInputWrap > div {
+    padding: 7px;
+}
+
+.detail-page.is-review-detail.has-review-image .commentList {
+    gap: 8px;
+}
+
+.detail-page.is-review-detail.has-review-image .commentItem,
+.detail-page.is-review-detail.has-review-image .commentSkeleton {
+    padding: 13px 0;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--color-border);
+    border-radius: 0;
+}
+
+.detail-page.is-review-detail.has-review-image .commentItem .commentImg {
+    width: 34px;
+    height: 34px;
+}
+
 @media (prefers-reduced-motion: reduce) {
     .detailTitleSkeleton > span,
     .detailContentSkeleton > span,
@@ -580,5 +822,70 @@ button.countItem {
 
     .commentWrap {
         flex-wrap: wrap;
+    }
+
+}
+
+@media (max-width: 900px) {
+    .detail-page.is-review-detail.has-review-image .detailLayout {
+        display: block;
+        width: min(calc(100% - 32px), 720px);
+        height: auto;
+        margin: 32px auto 56px;
+        overflow: hidden;
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 16px;
+        box-shadow: var(--shadow-md);
+    }
+
+    .detail-page.is-review-detail.has-review-image .detailHero {
+        width: 100%;
+        height: auto;
+        min-height: 0;
+        aspect-ratio: 4 / 3;
+    }
+
+    .detail-page.is-review-detail.has-review-image .detailWrap {
+        height: auto;
+        overflow: visible;
+    }
+
+    .detail-page.is-review-detail.has-review-image .detailCard {
+        border-bottom: 1px solid var(--color-border);
+    }
+}
+
+@media (max-width: 560px) {
+    .detail-page.is-review-detail.has-review-image .detailLayout {
+        width: min(calc(100% - 24px), 520px);
+        margin: 20px auto 40px;
+        border-radius: 14px;
+    }
+
+    .detail-page.is-review-detail.has-review-image .detailHero {
+        height: auto;
+        min-height: 0;
+        aspect-ratio: 1 / 1;
+    }
+
+    .detail-page.is-review-detail.has-review-image .head {
+        padding-inline: 20px;
+    }
+
+    .detail-page.is-review-detail.has-review-image .writerWrap {
+        padding: 40px 16px 14px;
+    }
+
+    .detail-page.is-review-detail.has-review-image .head .title {
+        font-size: 22px;
+    }
+
+    .detail-page.is-review-detail.has-review-image .body {
+        padding-inline: 20px;
+    }
+
+    .detail-page.is-review-detail.has-review-image .comment {
+        padding-inline: 20px;
     }
 }
