@@ -10,9 +10,6 @@ import {
 import { userSignup } from '../api/signupRequest.js';
 // 이메일/닉네임 중복 체크 API가 회원가입 API에서 분리되면 다시 사용
 // import { checkEmail, checkNickname } from '../api/signupRequest.js';
-// 이미지 업로드 API가 백엔드에 추가되면 다시 사용
-// import { fileUpload } from '../api/signupRequest.js';
-
 const MAX_PASSWORD_LENGTH = 20;
 const DEFAULT_PROFILE_IMAGE_PATH = '/public/profile_default.svg';
 
@@ -37,9 +34,7 @@ const getSignupData = () => {
 
 const sendSignupData = async () => {
     const { passwordCheck, ...props } = signupData;
-    props.profileImageUrl =
-        localStorage.getItem('profileImageUrl') ||
-        `${window.location.origin}${DEFAULT_PROFILE_IMAGE_PATH}`;
+    props.profileImageUrl = `${window.location.origin}${DEFAULT_PROFILE_IMAGE_PATH}`;
 
     if (props.password.length > MAX_PASSWORD_LENGTH) {
         Dialog('비밀번호', '비밀번호는 20자 이하로 입력해주세요.');
@@ -50,7 +45,6 @@ const sendSignupData = async () => {
 
     // 응답이 성공적으로 왔을 경우
     if (ok || code === 'user_created') {
-        localStorage.removeItem('profileImageUrl');
         Dialog('회원 가입 완료', '회원 가입이 완료되었습니다.', () => {
             location.href = '/html/login.html';
         });
@@ -74,7 +68,6 @@ const sendSignupData = async () => {
         } else {
             Dialog('회원 가입 실패', '잠시 뒤 다시 시도해 주세요', () => {});
         }
-        localStorage.removeItem('profileImageUrl');
         observeSignupData();
     }
 };
@@ -83,33 +76,6 @@ const signupClick = () => {
     // signup 버튼 클릭 시
     const signupBtn = document.querySelector('#signupBtn');
     signupBtn.addEventListener('click', getSignupData);
-};
-
-const changeEventHandler = async (event, uid) => {
-    if (uid == 'profile') {
-        const file = event.target.files[0];
-        if (!file) return;
-
-        const helperElement = document.querySelector(
-            `.inputBox p[name="${uid}"]`,
-        );
-        if (helperElement) helperElement.textContent = '';
-        Dialog('이미지 업로드', '이미지 업로드는 아직 지원하지 않습니다.');
-        event.target.value = '';
-
-        // 이미지 업로드 API가 백엔드에 추가되면 다시 사용
-        // const formData = new FormData();
-        // formData.append('profileImage', file);
-        //
-        // try {
-        //     const { ok, data } = await fileUpload(formData);
-        //     if (!ok) throw new Error('서버 응답 오류');
-        //     localStorage.setItem('profileImageUrl', data.profileImageUrl);
-        // } catch (error) {
-        //     console.error('업로드 중 오류 발생:', error);
-        // }
-    }
-    observeSignupData();
 };
 
 const inputEventHandler = async (event, uid) => {
@@ -228,12 +194,6 @@ const addEventForInputElements = () => {
     const InputElement = document.querySelectorAll('input');
     InputElement.forEach(element => {
         const id = element.id;
-        if (id === 'profile') {
-            element.addEventListener('change', event =>
-                changeEventHandler(event, id),
-            );
-            return;
-        }
         element.addEventListener('input', event =>
             inputEventHandler(event, id),
         );

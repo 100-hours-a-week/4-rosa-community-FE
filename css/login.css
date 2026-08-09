@@ -171,6 +171,16 @@
     font-weight: 700;
 }
 
+.inputBox input[type='file']:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.profileSignupNotice {
+    color: var(--color-muted);
+    font-size: 11px;
+}
+
 .inputBox .lottie {
     position: absolute;
     right: 12px;
