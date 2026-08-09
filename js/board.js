@@ -18,7 +18,7 @@ import {
     likePost,
 } from '../api/boardRequest.js';
 
-const DEFAULT_PROFILE_IMAGE = '../public/image/profile/default.jpg';
+const DEFAULT_PROFILE_IMAGE = '/public/profile_default.svg';
 const DEFAULT_HERO_IMAGE = '/public/background/tripfeed_hero.jpg';
 const MAX_COMMENT_LENGTH = 1000;
 const HTTP_NOT_AUTHORIZED = 401;

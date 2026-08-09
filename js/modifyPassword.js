@@ -15,7 +15,7 @@ import { clearAuthStorage } from '../utils/token.js';
 
 const button = document.querySelector('#signupBtn');
 
-const DEFAULT_PROFILE_IMAGE = '../public/image/profile/default.jpg';
+const DEFAULT_PROFILE_IMAGE = '/public/profile_default.svg';
 const headerElement = Header('비밀번호 설정', 1, DEFAULT_PROFILE_IMAGE);
 prependChild(document.body, headerElement);
 

@@ -1,3 +1,5 @@
 <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle id="Ellipse 1" cx="18" cy="18" r="18" fill="#D9D9D9"/>
+<circle cx="18" cy="18" r="18" fill="#E3ECEE"/>
+<circle cx="18" cy="13.5" r="5.25" fill="#6B7F89"/>
+<path d="M8.5 29.25C9.44 23.97 13.05 21 18 21C22.95 21 26.56 23.97 27.5 29.25C24.89 31.45 21.58 32.75 18 32.75C14.42 32.75 11.11 31.45 8.5 29.25Z" fill="#6B7F89"/>
 </svg>

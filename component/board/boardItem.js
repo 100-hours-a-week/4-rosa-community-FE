@@ -36,7 +36,7 @@ const BoardItem = (
 
     const formattedDate = `${year}.${padTo2Digits(month)}.${padTo2Digits(day)}`;
 
-    const DEFAULT_PROFILE_IMAGE = '../public/image/profile/default.jpg';
+    const DEFAULT_PROFILE_IMAGE = '/public/profile_default.svg';
     const DEFAULT_POST_IMAGE = '/public/background/tripfeed_hero.jpg';
     const profileImageUrl = resolveImageUrl(imgUrl, DEFAULT_PROFILE_IMAGE);
     const thumbnailUrl = resolveImageUrl(postImageUrl, DEFAULT_POST_IMAGE);

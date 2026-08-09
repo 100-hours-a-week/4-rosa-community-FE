@@ -25,7 +25,7 @@ const HTTP_OK = 200;
 const MAX_TITLE_LENGTH = 26;
 const MAX_CONTENT_LENGTH = 1500;
 
-const DEFAULT_PROFILE_IMAGE = '../public/image/profile/default.jpg';
+const DEFAULT_PROFILE_IMAGE = '/public/profile_default.svg';
 
 const submitButton = document.querySelector('#submit');
 const titleInput = document.querySelector('#title');

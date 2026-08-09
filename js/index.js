@@ -7,7 +7,7 @@ import Header, {
 import { authCheck, prependChild, resolveImageUrl } from '../utils/function.js';
 import { getPosts } from '../api/indexRequest.js';
 
-const DEFAULT_PROFILE_IMAGE = '../public/image/profile/default.jpg';
+const DEFAULT_PROFILE_IMAGE = '/public/profile_default.svg';
 const SCROLL_THRESHOLD = 0.9;
 const DEFAULT_SORT = 'recent';
 const CATEGORY_NAMES = {

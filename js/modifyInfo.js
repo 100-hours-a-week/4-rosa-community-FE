@@ -18,8 +18,8 @@ import {
 import { requestJson } from '../utils/request.js';
 import { clearAuthStorage } from '../utils/token.js';
 
-const DEFAULT_PROFILE_IMAGE = '../public/image/profile/default.jpg';
-const DEFAULT_PROFILE_IMAGE_URL = `${window.location.origin}/public/profile_default.svg`;
+const DEFAULT_PROFILE_IMAGE = '/public/profile_default.svg';
+const DEFAULT_PROFILE_IMAGE_URL = `${window.location.origin}${DEFAULT_PROFILE_IMAGE}`;
 const headerElement = Header('프로필 설정', 2, DEFAULT_PROFILE_IMAGE);
 prependChild(document.body, headerElement);
 
