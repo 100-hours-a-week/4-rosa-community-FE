@@ -118,9 +118,22 @@ const getBoardDetail = async postId => {
     return data;
 };
 
+const applyDetailLayout = isReview => {
+    document.body.classList.toggle('is-review-detail', isReview);
+    document.body.classList.toggle('has-review-image', isReview);
+
+    const writerElement = document.querySelector('.writerWrap');
+    const targetElement = document.querySelector(
+        isReview ? '.detailHero' : '.head',
+    );
+    if (writerElement && targetElement) {
+        targetElement.appendChild(writerElement);
+    }
+};
+
 const setBoardDetail = async data => {
     const isReview = data.category?.code === 'REVIEW';
-    document.body.classList.toggle('is-review-detail', isReview);
+    applyDetailLayout(isReview);
 
     // 헤드 정보
     const categoryElement = document.querySelector('.detailCategory');
@@ -209,14 +222,6 @@ const setBoardDetail = async data => {
     commentCountElement.textContent = data.commentCount.toLocaleString();
 
     await postImageReady;
-    document.body.classList.toggle('has-review-image', isReview);
-    if (isReview) {
-        const writerElement = document.querySelector('.writerWrap');
-        const heroElement = document.querySelector('.detailHero');
-        if (writerElement && heroElement) {
-            heroElement.appendChild(writerElement);
-        }
-    }
 };
 
 const isPostOwner = data => {
@@ -311,6 +316,8 @@ const inputComment = async () => {
 };
 
 const init = async () => {
+    applyDetailLayout(getQueryString('categoryCode') === 'REVIEW');
+
     const headerElement = Header(
         '여행 이야기',
         2,

@@ -173,7 +173,7 @@ const addBoard = async () => {
 
             const postId = data?.id;
             if (postId) {
-                window.location.href = `/html/board.html?id=${postId}`;
+                window.location.href = `/html/board.html?id=${postId}&categoryCode=${boardWrite.categoryCode}`;
                 return;
             }
             contentHelpElement.textContent =
@@ -193,7 +193,7 @@ const addBoard = async () => {
         }
 
         if (status === HTTP_OK) {
-            window.location.href = `/html/board.html?id=${postId}`;
+            window.location.href = `/html/board.html?id=${postId}&categoryCode=${boardWrite.categoryCode}`;
         } else {
             Dialog('게시글', '게시글 수정 실패');
         }

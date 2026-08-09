@@ -8,6 +8,14 @@
     <title>여행 이야기 — TRIPFEED</title>
   </head>
   <body class="site-page detail-page is-detail-loading">
+    <script>
+      if (
+        new URLSearchParams(window.location.search).get('categoryCode') ===
+        'REVIEW'
+      ) {
+        document.body.classList.add('is-review-detail', 'has-review-image');
+      }
+    </script>
     <div class="detailLayout">
       <div class="detailHero">
         <div class="contentImg"></div>

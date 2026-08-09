@@ -46,7 +46,7 @@ const BoardItem = (
     // const API_HOST = getServerUrl();
 
     return `
-    <a href="/html/board.html?id=${postId}">
+    <a href="/html/board.html?id=${postId}&categoryCode=${encodeURIComponent(categoryCode)}">
         <div class="boardItem">
             <div class="boardThumbnail">
                 <img src="${thumbnailUrl}" alt="" loading="lazy">
