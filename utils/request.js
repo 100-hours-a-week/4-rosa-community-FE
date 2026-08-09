@@ -25,9 +25,10 @@ const getServerUrl = () => {
     }
 
     const host = window.location.hostname;
-    return host.includes('localhost')
-        ? 'http://localhost:8080'
-        : `http://${host}:8080`;
+    const isLocalHost = ['localhost', '127.0.0.1', '::1'].includes(host);
+    return isLocalHost
+        ? 'http://localhost:8080/server-api'
+        : '/server-api';
 };
 
 const refreshAccessToken = async () => {
