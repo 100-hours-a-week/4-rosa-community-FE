@@ -298,6 +298,10 @@
     background: #0a9292;
 }
 
+.boardList.listFeed .listCategoryBadge[data-category='REVIEW'] {
+    background: #311fa8;
+}
+
 .boardList.listFeed .listCategoryBadge[data-category='QNA'] {
     background: #4d5ec4;
 }
