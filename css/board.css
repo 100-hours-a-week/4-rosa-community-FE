@@ -2,11 +2,67 @@
 @import url('../component/header/header.css');
 @import url('../component/comment/comment.css');
 
+@keyframes detailSkeletonShimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.detailTitleSkeleton > span,
+.detailContentSkeleton > span,
+.commentSkeletonAvatar,
+.commentSkeletonMeta,
+.commentSkeletonLine,
+.detail-page.is-detail-loading .detailCategory,
+.detail-page.is-detail-loading .profileImg,
+.detail-page.is-detail-loading .nickname > span,
+.detail-page.is-detail-loading .createdAt > span,
+.detail-page.is-detail-loading .countItem,
+.detail-page.is-detail-loading .commentHeading .eyebrow,
+.detail-page.is-detail-loading .commentHeading h2,
+.detail-page.is-detail-loading .commentInputWrap {
+    background: linear-gradient(
+        90deg,
+        #dce5e8 25%,
+        #eef4f5 50%,
+        #dce5e8 75%
+    );
+    background-size: 200% 100%;
+    animation: detailSkeletonShimmer 1.4s ease-in-out infinite;
+}
+
 .detailHero {
     position: relative;
     height: clamp(300px, 46vw, 520px);
     overflow: hidden;
     background: var(--color-primary) url('/public/background/tripfeed_hero.jpg') center / cover no-repeat;
+}
+
+.detail-page.is-detail-loading .detailHero {
+    background: #dce5e8;
+}
+
+.detail-page.is-detail-loading .detailHero::before {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+        90deg,
+        #dce5e8 25%,
+        #eef4f5 50%,
+        #dce5e8 75%
+    );
+    background-size: 200% 100%;
+    animation: detailSkeletonShimmer 1.4s ease-in-out infinite;
+    content: '';
+}
+
+.detail-page.is-detail-loading .detailHeroShade {
+    opacity: 0;
 }
 
 .detailHero .contentImg,
@@ -61,6 +117,13 @@
     letter-spacing: 0.08em;
 }
 
+.detail-page.is-detail-loading .detailCategory {
+    width: 64px;
+    height: 24px;
+    padding: 0;
+    color: transparent;
+}
+
 .detailCategory[data-category='INFO'] {
     background: #0a9292;
 }
@@ -88,6 +151,25 @@
     overflow-wrap: anywhere;
 }
 
+.detailTitleSkeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    padding-top: 3px;
+}
+
+.detailTitleSkeleton > span {
+    display: block;
+    width: min(82%, 560px);
+    height: 28px;
+    border-radius: 7px;
+}
+
+.detailTitleSkeleton > span:last-child {
+    width: min(55%, 380px);
+}
+
 .writerWrap {
     display: flex;
     align-items: center;
@@ -108,6 +190,15 @@
     object-fit: cover;
 }
 
+.detail-page.is-detail-loading .profileImg {
+    display: block;
+    overflow: hidden;
+}
+
+.detail-page.is-detail-loading .profileImg .img {
+    opacity: 0;
+}
+
 .writerText {
     min-width: 0;
 }
@@ -123,6 +214,22 @@
     color: var(--color-muted);
     font-size: 11px;
     font-weight: 400;
+}
+
+.detail-page.is-detail-loading .nickname > span,
+.detail-page.is-detail-loading .createdAt > span {
+    display: block;
+    border-radius: 999px;
+}
+
+.detail-page.is-detail-loading .nickname > span {
+    width: 92px;
+    height: 13px;
+}
+
+.detail-page.is-detail-loading .createdAt > span {
+    width: 132px;
+    height: 10px;
 }
 
 .mod {
@@ -169,6 +276,36 @@
     overflow-wrap: anywhere;
 }
 
+.detailContentSkeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    width: 100%;
+}
+
+.detailContentSkeleton > span {
+    display: block;
+    width: 100%;
+    height: 13px;
+    border-radius: 999px;
+}
+
+.detailContentSkeleton > span:nth-child(2) {
+    width: 94%;
+}
+
+.detailContentSkeleton > span:nth-child(3) {
+    width: 88%;
+}
+
+.detailContentSkeleton > span:nth-child(4) {
+    width: 96%;
+}
+
+.detailContentSkeleton > span:last-child {
+    width: 62%;
+}
+
 .bodyWrap {
     margin-top: 36px;
     padding-top: 24px;
@@ -201,6 +338,14 @@ button.countItem {
 .countItem p {
     font-size: 12px;
     font-weight: 600;
+}
+
+.detail-page.is-detail-loading .countItem {
+    border-color: transparent;
+}
+
+.detail-page.is-detail-loading .countItem > * {
+    opacity: 0;
 }
 
 .countIcon {
@@ -246,12 +391,38 @@ button.countItem {
     font-weight: 600;
 }
 
+.detail-page.is-detail-loading .commentHeading .eyebrow,
+.detail-page.is-detail-loading .commentHeading h2 {
+    color: transparent;
+    border-radius: 999px;
+}
+
+.detail-page.is-detail-loading .commentHeading .eyebrow {
+    width: 82px;
+    height: 12px;
+}
+
+.detail-page.is-detail-loading .commentHeading h2 {
+    width: 96px;
+    height: 30px;
+}
+
 .commentInputWrap {
     overflow: hidden;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-sm);
+}
+
+.detail-page.is-detail-loading .commentInputWrap {
+    min-height: 177px;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.detail-page.is-detail-loading .commentInputWrap > * {
+    visibility: hidden;
 }
 
 .commentInputWrap textarea {
@@ -298,6 +469,68 @@ button.countItem {
     display: flex;
     flex-direction: column;
     gap: 12px;
+}
+
+.commentSkeleton {
+    display: flex;
+    gap: 13px;
+    padding: 18px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+}
+
+.commentSkeletonAvatar {
+    flex: 0 0 auto;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+}
+
+.commentSkeleton > div {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 9px;
+    min-width: 0;
+}
+
+.commentSkeletonMeta,
+.commentSkeletonLine {
+    display: block;
+    height: 11px;
+    border-radius: 999px;
+}
+
+.commentSkeletonMeta {
+    width: 30%;
+}
+
+.commentSkeletonLine {
+    width: 92%;
+}
+
+.commentSkeletonLine.short {
+    width: 58%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .detailTitleSkeleton > span,
+    .detailContentSkeleton > span,
+    .commentSkeletonAvatar,
+    .commentSkeletonMeta,
+    .commentSkeletonLine,
+    .detail-page.is-detail-loading .detailCategory,
+    .detail-page.is-detail-loading .profileImg,
+    .detail-page.is-detail-loading .nickname > span,
+    .detail-page.is-detail-loading .createdAt > span,
+    .detail-page.is-detail-loading .countItem,
+    .detail-page.is-detail-loading .commentHeading .eyebrow,
+    .detail-page.is-detail-loading .commentHeading h2,
+    .detail-page.is-detail-loading .commentInputWrap,
+    .detail-page.is-detail-loading .detailHero::before {
+        animation: none;
+    }
 }
 
 @media (max-width: 700px) {

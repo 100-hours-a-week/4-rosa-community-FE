@@ -19,6 +19,7 @@ import {
 } from '../api/boardRequest.js';
 
 const DEFAULT_PROFILE_IMAGE = '../public/image/profile/default.jpg';
+const DEFAULT_HERO_IMAGE = '/public/background/tripfeed_hero.jpg';
 const MAX_COMMENT_LENGTH = 1000;
 const HTTP_NOT_AUTHORIZED = 401;
 const HTTP_OK = 200;
@@ -29,6 +30,63 @@ const formatCount = value => {
     if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
     if (count >= 1000) return `${(count / 1000).toFixed(1)}K`;
     return count.toLocaleString();
+};
+
+const setDetailLoading = isLoading => {
+    document.body.classList.toggle('is-detail-loading', isLoading);
+    document
+        .querySelector('.detailWrap')
+        ?.setAttribute('aria-busy', String(isLoading));
+};
+
+const preloadImage = imageUrl => {
+    return new Promise(resolve => {
+        const image = document.createElement('img');
+        let isSettled = false;
+        const finish = loadedImage => {
+            if (isSettled) return;
+            isSettled = true;
+            resolve(loadedImage);
+        };
+
+        image.alt = '';
+        image.addEventListener('load', () => finish(image), { once: true });
+        image.addEventListener('error', () => finish(null), { once: true });
+        image.src = imageUrl;
+
+        if (image.complete) {
+            finish(image.naturalWidth ? image : null);
+        }
+    });
+};
+
+const loadPostImage = async (container, imageUrl) => {
+    container.replaceChildren();
+    const imageCandidates = [
+        ...new Set([imageUrl, DEFAULT_HERO_IMAGE].filter(Boolean)),
+    ];
+
+    for (const candidate of imageCandidates) {
+        const image = await preloadImage(candidate);
+        if (!image) continue;
+        container.replaceChildren(image);
+        return;
+    }
+};
+
+const renderDetailError = () => {
+    setDetailLoading(false);
+    document.querySelector('.detailCategory')?.classList.add('hidden');
+    document.querySelector('.writerWrap')?.classList.add('hidden');
+    document.querySelector('.bodyWrap')?.classList.add('hidden');
+    document.querySelector('.comment')?.classList.add('hidden');
+
+    const titleElement = document.querySelector('.title');
+    const contentElement = document.querySelector('.content');
+    if (titleElement) titleElement.textContent = '글을 불러오지 못했어요.';
+    if (contentElement) {
+        contentElement.textContent = '잠시 후 새로고침해 주세요.';
+    }
 };
 
 const setLikeButtonState = (button, isLiked) => {
@@ -47,7 +105,7 @@ const getBoardDetail = async postId => {
     return data;
 };
 
-const setBoardDetail = data => {
+const setBoardDetail = async data => {
     // 헤드 정보
     const categoryElement = document.querySelector('.detailCategory');
     const titleElement = document.querySelector('.title');
@@ -88,11 +146,7 @@ const setBoardDetail = data => {
     // 바디 정보
     const contentImgElement = document.querySelector('.contentImg');
     const postImageUrl = resolveImageUrl(data.postImageUrl);
-    if (postImageUrl) {
-        const img = document.createElement('img');
-        img.src = postImageUrl;
-        contentImgElement.appendChild(img);
-    }
+    const postImageReady = loadPostImage(contentImgElement, postImageUrl);
     const contentElement = document.querySelector('.content');
     contentElement.textContent = data.content;
 
@@ -133,6 +187,8 @@ const setBoardDetail = data => {
 
     const commentCountElement = document.querySelector('.commentCount h3');
     commentCountElement.textContent = data.commentCount.toLocaleString();
+
+    await postImageReady;
 };
 
 const isPostOwner = data => {
@@ -178,7 +234,9 @@ const getBoardComment = async id => {
 const setBoardComment = (data, myInfo, postId) => {
     const commentListElement = document.querySelector('.commentList');
     if (commentListElement) {
-        data.map(event => {
+        commentListElement.replaceChildren();
+        commentListElement.setAttribute('aria-busy', 'false');
+        data.forEach(event => {
             const item = CommentItem(
                 event,
                 postId,
@@ -252,19 +310,24 @@ const init = async () => {
         updateHeaderProfile(headerElement, profileImage);
 
         const pageId = getQueryString('id');
-
+        const commentsPromise = getBoardComment(pageId).catch(error => {
+            console.error('Comments failed to load:', error);
+            return [];
+        });
         const pageData = await getBoardDetail(pageId);
 
         if (isPostOwner(pageData)) {
             setBoardModify(pageData);
         }
-        setBoardDetail(pageData);
+        await setBoardDetail(pageData);
+        setDetailLoading(false);
 
-        getBoardComment(pageId).then(data =>
+        commentsPromise.then(data =>
             setBoardComment(data, myInfo, pageId),
         );
     } catch (error) {
         console.error(error);
+        renderDetailError();
     }
 };
 
