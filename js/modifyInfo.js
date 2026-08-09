@@ -57,10 +57,10 @@ const observeData = () => {
         authData.profileImageUrl !== changeData.profileImageUrl
     ) {
         button.disabled = false;
-        button.style.backgroundColor = '#7F6AEE';
+        button.style.backgroundColor = '#122a38';
     } else {
         button.disabled = true;
-        button.style.backgroundColor = '#ACA0EB';
+        button.style.backgroundColor = '#9ca5a9';
     }
 };
 

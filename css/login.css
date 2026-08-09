@@ -1,212 +1,398 @@
 @import url('./common/layout.css');
 @import url('../component/header/header.css');
 
-.title {
-    font-size: 32px;
-    line-height: 38.41px;
-    letter-spacing: -0.02em;
-    font-weight: 700;
-    color: #000000;
-    margin-bottom: 67px;
+.auth-page {
+    background: var(--color-bg);
 }
 
-article {
-    width: 100%;
-    max-width: 360px;
+.authShell {
+    display: grid;
+    grid-template-columns: minmax(440px, 1.1fr) minmax(430px, 0.9fr);
+    min-height: 100vh;
+}
+
+.authVisual {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    color: #fff;
+    background: var(--color-primary) url('/public/background/tripfeed_hero.jpg') center / cover no-repeat;
+}
+
+.authVisualShade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, rgba(10, 28, 39, 0.88), rgba(10, 28, 39, 0.08) 70%);
+}
+
+.authVisualContent {
+    position: absolute;
+    right: clamp(36px, 6vw, 90px);
+    bottom: clamp(50px, 8vh, 90px);
+    left: clamp(36px, 6vw, 90px);
+    z-index: 1;
+}
+
+.authVisualContent > p {
+    margin-bottom: 18px;
+    color: rgba(255, 255, 255, 0.48);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+}
+
+.authVisualContent h1 {
+    font-family: var(--font-sans);
+    font-size: clamp(42px, 5vw, 66px);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.045em;
+}
+
+.authVisualContent span {
+    display: block;
+    max-width: 430px;
+    margin-top: 22px;
+    color: rgba(255, 255, 255, 0.67);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.authPanel {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    row-gap: 35px;
+    min-height: 100vh;
+    padding: 48px 42px;
+}
+
+.signup-page .authPanel {
+    align-items: flex-start;
+}
+
+.authContent {
+    width: min(100%, 390px);
+    margin: auto;
+}
+
+.authHeading {
+    margin-bottom: 34px;
+}
+
+.authBrand {
+    display: inline-block;
+    margin-bottom: 44px;
+    color: var(--color-primary);
+    font-family: var(--font-sans);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+}
+
+.authHeading .title,
+.settingsHeading .title {
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: clamp(30px, 4vw, 38px);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.04em;
+}
+
+.authHeading > p,
+.settingsHeading > p:last-child {
+    margin-top: 9px;
+    color: var(--color-muted);
+    font-size: 13px;
+}
+
+.authContent article,
+.settingsCard article {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    width: 100%;
 }
 
 .inputBox {
+    position: relative;
     display: flex;
     flex-direction: column;
-    row-gap: 8px;
+    gap: 8px;
     width: 100%;
-
-    position: relative;
 }
 
 .inputBox label {
-    font-size: 15px;
-    line-height: 17px;
-    letter-spacing: -0.02em;
+    color: var(--color-text);
+    font-size: 12px;
     font-weight: 700;
-    color: #000000;
+    letter-spacing: 0.02em;
 }
-.inputBox input {
-    font-size: 14px;
-    color: #000000;
-    line-height: 16.8px;
+
+.inputBox input:not([type='file']) {
     width: 100%;
-    padding: 8px 10px;
-
-    border: 1px solid #000000;
-    border-radius: 4px;
-
-    background-color: transparent;
+    height: 46px;
+    padding: 0 13px;
+    color: var(--color-text);
+    background: var(--color-surface-soft);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    outline: 0;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.inputBox input[type='text'] {
-    flex-grow: 1; /* 입력 필드가 가능한 많은 공간을 차지하도록 함 */
-    padding-right: 10px; /* 오른쪽에 Lottie 애니메이션을 위한 공간 확보 */
+.inputBox input::placeholder {
+    color: #a69b90;
 }
-.inputBox .lottie {
-    position: absolute;
-    right: 10px; /* 입력 필드 오른쪽 끝에서 10px 떨어진 위치 */
-    top: 50%; /* 상단에서 50% 위치 */
 
-    width: 20px; /* Lottie 애니메이션 크기, 필요에 따라 조정 */
-    height: 20px; /* Lottie 애니메이션 크기, 필요에 따라 조정 */
+.inputBox input:not([type='file']):focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(18, 42, 56, 0.1);
 }
 
 .inputBox input[type='file'] {
-    border: none;
-    padding: 8px 0px;
-}
-
-.inputBox > .helperText {
-    position: absolute;
-    bottom: -4px;
-    transform: translate(0, 100%);
-
-    color: #f00;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-}
-
-.buttons {
-    position: relative;
-    display: flex;
-    flex-direction: column;
     width: 100%;
-    margin-top: 42px;
-}
-.buttons p {
-    position: absolute;
-    top: -4px;
-    transform: translate(0, -100%);
-    color: #f00;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-}
-.buttons button,
-a {
-    font-size: 14px;
-    cursor: pointer;
-    width: 100%;
-    height: 33px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding: 9px;
+    color: var(--color-muted);
+    background: var(--color-surface-soft);
+    border: 1px dashed rgba(23, 16, 10, 0.22);
+    border-radius: var(--radius-sm);
+    font-size: 11px;
 }
 
-.buttons button {
-    background-color: #aca0eb;
-    border-radius: 4px;
-    border: none;
-
-    color: #ffffff;
+.inputBox input[type='file']::file-selector-button {
+    margin-right: 10px;
+    padding: 7px 10px;
+    color: var(--color-primary);
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
     font-weight: 700;
 }
 
-.buttons a {
-    color: #000000;
-    font-weight: 400;
+.inputBox .lottie {
+    position: absolute;
+    right: 12px;
+    bottom: 13px;
+    width: 20px;
+    height: 20px;
 }
 
-.deleteFile {
-    cursor: pointer;
-    padding-left: 10px;
-    color: red;
+.inputBox > .helperText {
+    margin-top: -3px;
 }
 
-#toastContainer {
-    /* position: fixed;
-    top: 0;
-    right: 0; */
+.buttons {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    gap: 10px;
-    padding: 20px;
-    z-index: 100;
+    gap: 16px;
+    width: 100%;
+    margin-top: 8px;
 }
 
-.toastMessage {
-    background-color: #7f6aee;
-    color: #ffffff;
-    padding: 10px 20px;
-    margin-bottom: 5px;
-    display: inline-block;
-    opacity: 0;
-    transition: opacity 0.5s;
-    border-radius: 30px;
+.buttons > button {
+    width: 100%;
+    min-height: 46px;
+    color: #fff;
+    background: var(--color-primary) !important;
+    border: 0;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 700;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.buttons > button:not(:disabled):hover {
+    background: var(--color-primary-soft) !important;
+    transform: translateY(-1px);
+}
+
+.buttons > button:disabled {
+    cursor: not-allowed;
+    opacity: 0.42;
+}
+
+.authSwitch {
+    color: var(--color-muted);
+    font-size: 13px;
+    text-align: center;
+}
+
+.authSwitch a {
+    color: var(--color-accent);
+    font-weight: 700;
+}
+
+.authSwitch a:hover {
+    text-decoration: underline;
+}
+
+.settings-page {
+    background:
+        radial-gradient(circle at 88% 12%, rgba(191, 83, 25, 0.08), transparent 24%),
+        var(--color-bg);
+}
+
+.settings-page .wrap {
+    width: min(100%, 700px);
+}
+
+.settingsCard {
+    padding: 44px 48px 48px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.settingsHeading {
+    margin-bottom: 34px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.settingsHeading .eyebrow {
+    margin-bottom: 8px;
+}
+
+.defaultText {
+    min-height: 46px;
+    padding: 13px;
+    color: var(--color-muted);
+    background: var(--color-surface-soft);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
 }
 
 .profileUploadContainer {
     position: relative;
-    display: inline-block;
-    width: 100px;
-    height: 100px;
-    overflow: visible; /* X 버튼이 바깥으로 나오도록 */
+    align-self: center;
+    width: 108px;
+    height: 108px;
+    margin-bottom: 10px;
+}
+
+#profilePreview {
+    width: 108px !important;
+    height: 108px !important;
+    object-fit: cover;
+    border: 4px solid var(--color-bg);
     border-radius: 50%;
+}
+
+.profileUploadButton {
+    position: absolute;
+    right: -3px;
+    bottom: 0;
+    display: grid;
+    place-items: center;
+    min-width: 40px;
+    height: 28px;
+    padding: 0 8px;
+    color: #fff !important;
+    background: var(--color-primary);
+    border: 2px solid #fff;
+    border-radius: 999px;
+    font-size: 10px !important;
+    font-weight: 700;
 }
 
 .profileRemoveButton {
     position: absolute;
-    top: -4px;
-    right: -4px;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    border: 2px solid #fff;
-    background-color: #ff4d4f;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 18px;
-    text-align: center;
-    cursor: pointer;
+    top: 0;
+    right: 0;
+    z-index: 2;
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 10;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    transition: transform 0.15s ease, background-color 0.15s ease;
-}
-
-.profileRemoveButton:hover {
-    background-color: #ff1a1a;
-    transform: scale(1.1);
-}
-
-.profileUploadButton {
-    display: block;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.55);
-    color: white;
-    padding: 4px 10px;
-    border: 1px solid rgba(255, 255, 255, 0.9);
-    cursor: pointer;
-    text-align: center;
-    white-space: nowrap;
-    border-radius: 16px;
-    font-size: 12px;
-    z-index: 2;
-}
-#profilePreview {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    width: 25px;
+    height: 25px;
+    color: #fff;
+    background: var(--color-danger);
+    border: 2px solid #fff;
     border-radius: 50%;
+}
+
+#withdrawBtn {
+    align-self: center;
+    color: var(--color-danger);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+#toastContainer {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    z-index: 200;
+}
+
+.toastMessage {
+    padding: 11px 18px;
+    color: #fff;
+    background: var(--color-primary);
+    border-radius: 999px;
+    box-shadow: var(--shadow-md);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+@media (max-width: 900px) {
+    .authShell {
+        grid-template-columns: 1fr;
+    }
+
+    .authVisual {
+        position: relative;
+        height: 310px;
+    }
+
+    .authVisualContent {
+        right: 28px;
+        bottom: 30px;
+        left: 28px;
+    }
+
+    .authVisualContent h1 {
+        font-size: 40px;
+    }
+
+    .authVisualContent span {
+        display: none;
+    }
+
+    .authPanel {
+        min-height: auto;
+        padding: 46px 24px 64px;
+    }
+
+    .authBrand {
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 700px) {
+    .authVisual {
+        height: 250px;
+    }
+
+    .authVisualContent h1 {
+        font-size: 33px;
+    }
+
+    .authVisualContent > p {
+        margin-bottom: 10px;
+        font-size: 9px;
+    }
+
+    .authPanel {
+        padding-inline: 20px;
+    }
+
+    .settingsCard {
+        padding: 32px 20px;
+        border-radius: var(--radius-md);
+    }
 }

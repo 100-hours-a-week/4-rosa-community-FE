@@ -71,7 +71,7 @@ const observeSignupData = () => {
         password &&
         password.length >= MAX_PASSWORD_LENGTH
     );
-    button.style.backgroundColor = button.disabled ? '#ACA0EB' : '#7F6AEE';
+    button.style.backgroundColor = button.disabled ? '#9ca5a9' : '#122a38';
 };
 
 const eventSet = () => {
@@ -132,7 +132,7 @@ const lottieAnimation = type => {
 const init = async () => {
     await authCheckReverse();
     observeSignupData();
-    prependChild(document.body, Header('커뮤니티', 0));
+    prependChild(document.body, Header('여행 커뮤니티', 0));
     eventSet();
 };
 
