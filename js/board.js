@@ -18,7 +18,7 @@ import {
     likePost,
 } from '../api/boardRequest.js';
 
-const DEFAULT_PROFILE_IMAGE = '../public/image/profile/default.jpg';
+const DEFAULT_PROFILE_IMAGE = '/public/profile_default.svg';
 const DEFAULT_HERO_IMAGE = '/public/background/tripfeed_hero.jpg';
 const MAX_COMMENT_LENGTH = 1000;
 const HTTP_NOT_AUTHORIZED = 401;
@@ -60,7 +60,7 @@ const preloadImage = imageUrl => {
     });
 };
 
-const loadPostImage = async (container, imageUrl) => {
+const loadPostImage = async (container, imageUrl, usePhotoLayout = false) => {
     container.replaceChildren();
     const imageCandidates = [
         ...new Set([imageUrl, DEFAULT_HERO_IMAGE].filter(Boolean)),
@@ -69,9 +69,31 @@ const loadPostImage = async (container, imageUrl) => {
     for (const candidate of imageCandidates) {
         const image = await preloadImage(candidate);
         if (!image) continue;
-        container.replaceChildren(image);
-        return;
+        const isPostImage = candidate === imageUrl;
+        image.className = 'contentImgMain';
+
+        if (usePhotoLayout) {
+            const backdropImage = image.cloneNode();
+            backdropImage.className = 'contentImgBackdrop';
+            backdropImage.alt = '';
+            backdropImage.setAttribute('aria-hidden', 'true');
+            container.replaceChildren(backdropImage, image);
+        } else {
+            container.replaceChildren(image);
+        }
+        return isPostImage;
     }
+
+    return false;
+};
+
+const renderInlinePostImage = (container, sourceImage) => {
+    if (!container || !sourceImage) return;
+    const inlineImage = sourceImage.cloneNode();
+    inlineImage.className = 'inlinePostImageElement';
+    inlineImage.alt = '게시글 첨부 이미지';
+    container.replaceChildren(inlineImage);
+    container.classList.remove('hidden');
 };
 
 const renderDetailError = () => {
@@ -105,7 +127,23 @@ const getBoardDetail = async postId => {
     return data;
 };
 
+const applyDetailLayout = isReview => {
+    document.body.classList.toggle('is-review-detail', isReview);
+    document.body.classList.toggle('has-review-image', isReview);
+
+    const writerElement = document.querySelector('.writerWrap');
+    const targetElement = document.querySelector(
+        isReview ? '.detailHero' : '.head',
+    );
+    if (writerElement && targetElement) {
+        targetElement.appendChild(writerElement);
+    }
+};
+
 const setBoardDetail = async data => {
+    const isReview = data.category?.code === 'REVIEW';
+    applyDetailLayout(isReview);
+
     // 헤드 정보
     const categoryElement = document.querySelector('.detailCategory');
     const titleElement = document.querySelector('.title');
@@ -146,7 +184,11 @@ const setBoardDetail = async data => {
     // 바디 정보
     const contentImgElement = document.querySelector('.contentImg');
     const postImageUrl = resolveImageUrl(data.postImageUrl);
-    const postImageReady = loadPostImage(contentImgElement, postImageUrl);
+    const postImageReady = loadPostImage(
+        contentImgElement,
+        postImageUrl,
+        isReview,
+    );
     const contentElement = document.querySelector('.content');
     contentElement.textContent = data.content;
 
@@ -188,7 +230,13 @@ const setBoardDetail = async data => {
     const commentCountElement = document.querySelector('.commentCount h3');
     commentCountElement.textContent = data.commentCount.toLocaleString();
 
-    await postImageReady;
+    const hasPostImage = await postImageReady;
+    if (!isReview && hasPostImage) {
+        renderInlinePostImage(
+            document.querySelector('.inlinePostImage'),
+            contentImgElement.querySelector('.contentImgMain'),
+        );
+    }
 };
 
 const isPostOwner = data => {
@@ -283,6 +331,8 @@ const inputComment = async () => {
 };
 
 const init = async () => {
+    applyDetailLayout(getQueryString('categoryCode') === 'REVIEW');
+
     const headerElement = Header(
         '여행 이야기',
         2,

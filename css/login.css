@@ -171,6 +171,13 @@
     font-weight: 700;
 }
 
+.profileSignupNotice {
+    color: var(--color-muted);
+    font-size: 11px;
+    line-height: 1.5;
+    text-align: center;
+}
+
 .inputBox .lottie {
     position: absolute;
     right: 12px;
@@ -313,6 +320,13 @@
     background: var(--color-danger);
     border: 2px solid #fff;
     border-radius: 50%;
+}
+
+.profileUploadNotice {
+    margin: 0 0 22px;
+    color: var(--color-muted);
+    font-size: 11px;
+    text-align: center;
 }
 
 #withdrawBtn {

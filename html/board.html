@@ -8,12 +8,21 @@
     <title>여행 이야기 — TRIPFEED</title>
   </head>
   <body class="site-page detail-page is-detail-loading">
-    <div class="detailHero" aria-hidden="true">
-      <div class="contentImg"></div>
-      <div class="detailHeroShade"></div>
-    </div>
-    <main class="wrap detailWrap" aria-busy="true">
-      <article class="detailCard">
+    <script>
+      if (
+        new URLSearchParams(window.location.search).get('categoryCode') ===
+        'REVIEW'
+      ) {
+        document.body.classList.add('is-review-detail', 'has-review-image');
+      }
+    </script>
+    <div class="detailLayout">
+      <div class="detailHero">
+        <div class="contentImg"></div>
+        <div class="detailHeroShade"></div>
+      </div>
+      <main class="wrap detailWrap" aria-busy="true">
+        <article class="detailCard">
         <section class="head">
           <p class="eyebrow detailCategory"></p>
           <h1 class="title">
@@ -50,6 +59,7 @@
               <span></span>
             </div>
           </div>
+          <figure class="inlinePostImage hidden"></figure>
           <div class="bodyWrap">
             <div class="commentWrap">
               <button
@@ -107,8 +117,8 @@
             </div>
           </div>
         </section>
-      </article>
-      <section class="comment" aria-labelledby="commentTitle">
+        </article>
+        <section class="comment" aria-labelledby="commentTitle">
         <div class="commentHeading">
           <p class="eyebrow">COMMENTS</p>
           <h2 id="commentTitle">댓글</h2>
@@ -137,8 +147,9 @@
             </div>
           </div>
         </div>
-      </section>
-    </main>
+        </section>
+      </main>
+    </div>
     <script src="../js/board.js" type="module"></script>
   </body>
 </html>

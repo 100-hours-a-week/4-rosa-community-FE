@@ -23,7 +23,6 @@
         <div class="profileUploadContainer">
             <img
                     id="profilePreview"
-                    src=""
                     alt="프로필 사진 미리보기"
                     style="max-width: 100px; max-height: 100px"
             />
@@ -43,10 +42,13 @@
                     name="profile"
                     id="profile"
                     placeholder="프로필 사진을 업로드 해주세요"
-                    accept="image/*"
+                    accept="image/*,.heic,.heif"
                     style="display: none"
             />
         </div>
+        <p id="profileUploadNotice" class="profileUploadNotice">
+            JPG, PNG, WEBP, GIF, HEIC · 최대 10MB
+        </p>
         <div class="inputBox">
             <label>이메일</label>
             <p class="defaultText" id="id"></p>
