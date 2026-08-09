@@ -87,6 +87,15 @@ const loadPostImage = async (container, imageUrl, usePhotoLayout = false) => {
     return false;
 };
 
+const renderInlinePostImage = (container, sourceImage) => {
+    if (!container || !sourceImage) return;
+    const inlineImage = sourceImage.cloneNode();
+    inlineImage.className = 'inlinePostImageElement';
+    inlineImage.alt = '게시글 첨부 이미지';
+    container.replaceChildren(inlineImage);
+    container.classList.remove('hidden');
+};
+
 const renderDetailError = () => {
     setDetailLoading(false);
     document.querySelector('.detailCategory')?.classList.add('hidden');
@@ -221,7 +230,13 @@ const setBoardDetail = async data => {
     const commentCountElement = document.querySelector('.commentCount h3');
     commentCountElement.textContent = data.commentCount.toLocaleString();
 
-    await postImageReady;
+    const hasPostImage = await postImageReady;
+    if (!isReview && hasPostImage) {
+        renderInlinePostImage(
+            document.querySelector('.inlinePostImage'),
+            contentImgElement.querySelector('.contentImgMain'),
+        );
+    }
 };
 
 const isPostOwner = data => {

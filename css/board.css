@@ -280,6 +280,37 @@
     overflow-wrap: anywhere;
 }
 
+.inlinePostImage {
+    display: grid;
+    place-items: center start;
+    width: min(100%, 480px);
+    max-height: 320px;
+    margin: 28px 0 0;
+    overflow: visible;
+}
+
+.inlinePostImage.hidden {
+    display: none;
+}
+
+.inlinePostImageElement {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 320px;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.detail-page:not(.is-review-detail) .body .content {
+    min-height: 0;
+}
+
+.detail-page:not(.is-review-detail) .bodyWrap {
+    margin-top: 44px;
+    padding-top: 20px;
+}
+
 .detailContentSkeleton {
     display: flex;
     flex-direction: column;
@@ -814,6 +845,16 @@ button.countItem {
         min-height: 140px;
         font-size: 15px;
         line-height: 1.82;
+    }
+
+    .inlinePostImage {
+        max-height: 260px;
+        margin-top: 24px;
+    }
+
+    .inlinePostImageElement {
+        max-height: 260px;
+        border-radius: 8px;
     }
 
     .comment {
