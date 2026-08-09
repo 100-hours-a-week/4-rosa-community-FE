@@ -1,5 +1,7 @@
 import Dialog from '../component/dialog/dialog.js';
-import Header from '../component/header/header.js';
+import Header, {
+    updateHeaderProfile,
+} from '../component/header/header.js';
 import {
     authCheck,
     getServerUrl,
@@ -10,6 +12,11 @@ import {
 import { userModify, userDelete } from '../api/modifyInfoRequest.js';
 import { requestJson } from '../utils/request.js';
 import { clearAuthStorage } from '../utils/token.js';
+
+const DEFAULT_PROFILE_IMAGE = '../public/image/profile/default.jpg';
+const headerElement = Header('프로필 설정', 2, DEFAULT_PROFILE_IMAGE);
+prependChild(document.body, headerElement);
+
 // TODO: 닉네임 중복 체크 API 분리 시 사용
 // import { checkNickname } from '../api/signupRequest.js';
 // TODO: 이미지 업로드 API 연동 시 사용
@@ -28,12 +35,14 @@ const removeProfileButton = document.querySelector('#removeProfileButton');
 const authResponse = await authCheck();
 if (!authResponse.ok) throw new Error('사용자 정보를 불러오는데 실패하였습니다.');
 const authData = authResponse.data;
+updateHeaderProfile(
+    headerElement,
+    resolveImageUrl(authData.profileImageUrl, DEFAULT_PROFILE_IMAGE),
+);
 const changeData = {
     nickname: authData.nickname,
     profileImageUrl: authData.profileImageUrl,
 };
-
-const DEFAULT_PROFILE_IMAGE = '../public/image/profile/default.jpg';
 
 const setData = data => {
     if (!data.profileImageUrl) {
@@ -230,10 +239,6 @@ const displayToastFromStorage = () => {
 };
 
 const init = () => {
-    const profileImage =
-        resolveImageUrl(authData.profileImageUrl, DEFAULT_PROFILE_IMAGE);
-
-    prependChild(document.body, Header('커뮤니티', 2, profileImage));
     setData(authData);
     observeData();
     addEvent();

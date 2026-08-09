@@ -1,6 +1,8 @@
 import { changePassword } from '../api/modifyPasswordRequest.js';
 import Dialog from '../component/dialog/dialog.js';
-import Header from '../component/header/header.js';
+import Header, {
+    updateHeaderProfile,
+} from '../component/header/header.js';
 import {
     authCheck,
     getServerUrl,
@@ -14,6 +16,8 @@ import { clearAuthStorage } from '../utils/token.js';
 const button = document.querySelector('#signupBtn');
 
 const DEFAULT_PROFILE_IMAGE = '../public/image/profile/default.jpg';
+const headerElement = Header('비밀번호 설정', 1, DEFAULT_PROFILE_IMAGE);
+prependChild(document.body, headerElement);
 
 const authResponse = await authCheck();
 if (!authResponse.ok) throw new Error('사용자 정보를 불러오는데 실패하였습니다.');
@@ -22,6 +26,7 @@ const profileImage = resolveImageUrl(
     data.profileImageUrl,
     DEFAULT_PROFILE_IMAGE,
 );
+updateHeaderProfile(headerElement, profileImage);
 
 const modifyData = {
     password: '',
@@ -119,7 +124,6 @@ const modifyPassword = async () => {
 
 const init = () => {
     button.addEventListener('click', modifyPassword);
-    prependChild(document.body, Header('커뮤니티', 1, profileImage));
     addEventForInputElements();
     observeData();
 };
