@@ -315,6 +315,13 @@
     border-radius: 50%;
 }
 
+.profileUploadNotice {
+    margin: 0 0 22px;
+    color: var(--color-muted);
+    font-size: 11px;
+    text-align: center;
+}
+
 #withdrawBtn {
     align-self: center;
     color: var(--color-danger);
