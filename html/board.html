@@ -1,63 +1,119 @@
 <!doctype html>
 <html lang="kr">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="/config.js"></script>
-    <link
-            rel="stylesheet"
-            href="../css/board.css"
-            crossorigin="anonymous"
-    />
-    <title>게시판 상세</title>
-</head>
-<body>
-<section class="wrap">
-    <section class="head">
-        <h1 class="title"></h1>
-        <div class="writerWrap">
+    <link rel="stylesheet" href="../css/board.css" crossorigin="anonymous" />
+    <title>여행 이야기 — TRIPFEED</title>
+  </head>
+  <body class="site-page detail-page">
+    <div class="detailHero" aria-hidden="true">
+      <div class="contentImg"></div>
+      <div class="detailHeroShade"></div>
+    </div>
+    <main class="wrap detailWrap">
+      <article class="detailCard">
+        <section class="head">
+          <p class="eyebrow detailCategory">여행 이야기</p>
+          <h1 class="title"></h1>
+          <div class="writerWrap">
             <picture class="profileImg">
-                <img class="img" src="/public/profile_default.svg" />
+              <img
+                class="img"
+                src="/public/profile_default.svg"
+                alt="작성자 프로필"
+              />
             </picture>
-            <h2 class="nickname"></h2>
-            <h3 class="createdAt"></h3>
+            <div class="writerText">
+              <h2 class="nickname"></h2>
+              <h3 class="createdAt"></h3>
+            </div>
             <div class="mod hidden">
-                <button id="modifyBtn">수정</button>
-                <button id="deleteBtn">삭제</button>
+              <button id="modifyBtn">수정</button>
+              <button id="deleteBtn">삭제</button>
             </div>
-        </div>
-    </section>
-    <section class="body">
-        <div class="contentImg"></div>
-        <article class="content"></article>
-        <article class="bodyWrap">
+          </div>
+        </section>
+        <section class="body">
+          <div class="content"></div>
+          <div class="bodyWrap">
             <div class="commentWrap">
-                <button class="countItem likeButton" type="button" aria-pressed="false">
-                    <h3></h3>
-                    <p>좋아요수</p>
-                </button>
-                <div class="countItem viewCount">
-                    <h3></h3>
-                    <p>조회수</p>
-                </div>
-                <div class="countItem commentCount">
-                    <h3></h3>
-                    <p>댓글</p>
-                </div>
+              <button
+                class="countItem likeButton"
+                type="button"
+                aria-pressed="false"
+              >
+                <svg
+                  class="countIcon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M12 20.2C10.6 18.9 4.5 14.7 3 11.3 1.4 7.8 3.4 4.5 6.8 4.5c2.2 0 4.1 1.3 5.2 3.1 1.1-1.8 3-3.1 5.2-3.1 3.4 0 5.4 3.3 3.8 6.8-1.5 3.4-7.6 7.6-9 8.9Z"
+                  ></path>
+                </svg>
+                <h3></h3>
+                <p>좋아요</p>
+              </button>
+              <div class="countItem commentCount">
+                <svg
+                  class="countIcon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M6.5 4.5h11A3.5 3.5 0 0 1 21 8v6a3.5 3.5 0 0 1-3.5 3.5H11L5 21v-4.2A3.5 3.5 0 0 1 3 14V8a3.5 3.5 0 0 1 3.5-3.5Z"
+                  ></path>
+                </svg>
+                <h3></h3>
+                <p>댓글</p>
+              </div>
+              <div class="countItem viewCount">
+                <svg
+                  class="countIcon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M2.5 12s3.2-6.2 9.5-6.2 9.5 6.2 9.5 6.2-3.2 6.2-9.5 6.2S2.5 12 2.5 12Z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <h3></h3>
+                <p>조회</p>
+              </div>
             </div>
-        </article>
-    </section>
-    <section class="comment">
+          </div>
+        </section>
+      </article>
+      <section class="comment" aria-labelledby="commentTitle">
+        <div class="commentHeading">
+          <p class="eyebrow">COMMENTS</p>
+          <h2 id="commentTitle">댓글</h2>
+        </div>
         <div class="commentInputWrap">
-            <textarea placeholder="댓글을 남겨주세요!"></textarea>
-            <div>
-                <button class="commentInputBtn">댓글 등록</button>
-            </div>
+          <textarea placeholder="댓글을 남겨 생각을 나눠보세요."></textarea>
+          <div>
+            <button class="commentInputBtn">댓글 등록</button>
+          </div>
         </div>
         <div class="commentList"></div>
-    </section>
-</section>
-<div class="background"></div>
-</body>
-<script src="../js/board.js" type="module"></script>
+      </section>
+    </main>
+    <script src="../js/board.js" type="module"></script>
+  </body>
 </html>

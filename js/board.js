@@ -1,6 +1,9 @@
 import CommentItem from '../component/comment/comment.js';
 import Dialog from '../component/dialog/dialog.js';
-import Header from '../component/header/header.js';
+import Header, {
+    getCategoryWriteLabel,
+    updateHeaderProfile,
+} from '../component/header/header.js';
 import {
     authCheck,
     prependChild,
@@ -46,11 +49,30 @@ const getBoardDetail = async postId => {
 
 const setBoardDetail = data => {
     // 헤드 정보
+    const categoryElement = document.querySelector('.detailCategory');
     const titleElement = document.querySelector('.title');
     const createdAtElement = document.querySelector('.createdAt');
     const imgElement = document.querySelector('.img');
     const nicknameElement = document.querySelector('.nickname');
 
+    if (categoryElement) {
+        categoryElement.textContent = data.category?.name || '여행 이야기';
+        categoryElement.dataset.category = data.category?.code || '';
+    }
+    const activeCategoryLink = document.querySelector(
+        `.categoryLink[data-category-code="${data.category?.code || ''}"]`,
+    );
+    if (activeCategoryLink) {
+        activeCategoryLink.classList.add('isActive');
+        activeCategoryLink.setAttribute('aria-current', 'page');
+    }
+    const headerWriteLink = document.querySelector('.headerWriteLink');
+    if (headerWriteLink && data.category?.code) {
+        headerWriteLink.href = `/html/board-write.html?categoryCode=${data.category.code}`;
+        headerWriteLink.textContent = getCategoryWriteLabel(
+            data.category.code,
+        );
+    }
     titleElement.textContent = data.title;
     const date = new Date(data.createdAt);
     const formattedDate = `${date.getFullYear()}-${padTo2Digits(date.getMonth() + 1)}-${padTo2Digits(date.getDate())} ${padTo2Digits(date.getHours())}:${padTo2Digits(date.getMinutes())}:${padTo2Digits(date.getSeconds())}`;
@@ -195,14 +217,21 @@ const inputComment = async () => {
     }
     if (textareaElement.value === '') {
         commentBtnElement.disabled = true;
-        commentBtnElement.style.backgroundColor = '#ACA0EB';
+        commentBtnElement.style.backgroundColor = '#9ca5a9';
     } else {
         commentBtnElement.disabled = false;
-        commentBtnElement.style.backgroundColor = '#7F6AEE';
+        commentBtnElement.style.backgroundColor = '#122a38';
     }
 };
 
 const init = async () => {
+    const headerElement = Header(
+        '여행 이야기',
+        2,
+        DEFAULT_PROFILE_IMAGE,
+    );
+    prependChild(document.body, headerElement);
+
     try {
         const authResult = await authCheck();
         if (!authResult.ok) return;
@@ -220,7 +249,7 @@ const init = async () => {
             DEFAULT_PROFILE_IMAGE,
         );
 
-        prependChild(document.body, Header('커뮤니티', 2, profileImage));
+        updateHeaderProfile(headerElement, profileImage);
 
         const pageId = getQueryString('id');
 
