@@ -28,7 +28,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: min(590px, 100%);
+    width: min(760px, 100%);
     min-height: 390px;
     padding: 56px;
 }
@@ -44,6 +44,23 @@
     font-weight: 700;
     line-height: 1.14;
     letter-spacing: -0.045em;
+}
+
+.heroTitleLead,
+.heroTitleLine {
+    display: block;
+}
+
+.heroTitleLead {
+    white-space: nowrap;
+}
+
+.heroTitleLead > span {
+    white-space: nowrap;
+}
+
+.heroTitleLead > span + span {
+    margin-left: 0.18em;
 }
 
 .feedHeroContent > p:last-child {
@@ -461,6 +478,18 @@ html.categoryPage .feed-page .write {
 
     .feedHero h1 {
         font-size: 37px;
+    }
+
+    .heroTitleLead {
+        white-space: normal;
+    }
+
+    .heroTitleLead > span {
+        display: block;
+    }
+
+    .heroTitleLead > span + span {
+        margin-left: 0;
     }
 
     .write {
