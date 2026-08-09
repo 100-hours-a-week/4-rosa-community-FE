@@ -264,16 +264,16 @@ const observeSignupData = () => {
         !passwordCheck
     ) {
         button.disabled = true;
-        button.style.backgroundColor = '#ACA0EB';
+        button.style.backgroundColor = '#9ca5a9';
     } else {
         button.disabled = false;
-        button.style.backgroundColor = '#7F6AEE';
+        button.style.backgroundColor = '#0c1e2e';
     }
 };
 
 const init = async () => {
     await authCheckReverse();
-    prependChild(document.body, Header('커뮤니티', 1));
+    prependChild(document.body, Header('여행 커뮤니티', 1));
     observeSignupData();
     addEventForInputElements();
     signupClick();

@@ -1,138 +1,137 @@
 .commentItem {
     display: flex;
-    flex-direction: row;
-    column-gap: 16px;
+    gap: 13px;
+    padding: 18px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
 }
+
+.commentItem picture {
+    flex: 0 0 auto;
+}
+
 .commentItem .commentImg {
-    width: 32px;
-    height: 32px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     object-fit: cover;
 }
+
 .commentInfoWrap {
     display: flex;
+    flex: 1;
     flex-direction: column;
-    row-gap: 16px;
-    width: 100%;
-
-    word-break: break-all;
+    gap: 9px;
+    min-width: 0;
+    color: var(--color-text);
+    word-break: break-word;
 }
 
-.commentInfoWrap p {
-    word-break: break-all;
-    font-weight: 400;
+.commentInfoWrap > p {
+    color: #3c505b;
+    font-size: 14px;
+    line-height: 1.7;
 }
 
 .commentInfoHeader {
     display: flex;
-    flex-direction: row;
-    column-gap: 16px;
     align-items: center;
-    width: 100%;
-}
-.commentInfoHeader span {
-    margin-left: auto;
-    display: flex;
-    flex-direction: row;
-    column-gap: 8px;
-}
-.commentInfoHeader span button {
-    padding: 5px 12px;
-    border-radius: 8px;
-    border: 1px solid #aca0eb;
-    background-color: transparent;
-    color: #000;
-    font-size: 15px;
+    gap: 10px;
+    min-height: 28px;
 }
 
 .commentInfoHeader h3 {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
-    line-height: 17px;
-    letter-spacing: -0.01em;
-    text-align: left;
 }
+
 .commentInfoHeader h4 {
-    font-size: 12px;
+    color: var(--color-muted);
+    font-size: 10px;
     font-weight: 400;
-    line-height: 14px;
-    letter-spacing: -0.01em;
-    text-align: right;
-    color: #000000;
 }
 
-.commentInfoHeader button {
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 14px;
-    letter-spacing: -0.01em;
-    text-align: right;
-    color: rgba(171, 174, 186, 1);
+.commentInfoHeader span {
+    display: flex;
+    gap: 5px;
     margin-left: auto;
+}
 
-    border: none;
-    background-color: #fff;
-    cursor: pointer;
+.commentInfoHeader span button {
+    min-height: 28px;
+    padding: 0 9px;
+    color: var(--color-muted);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font-size: 10px;
+}
+
+.commentInfoHeader span button:hover {
+    color: var(--color-accent);
+    border-color: rgba(10, 146, 146, 0.35);
 }
 
 .commentEditWrap {
-    display: flex;
-    flex-direction: column;
-    border-radius: 12px;
     overflow: hidden;
-    background-color: rgba(249, 249, 250, 1);
+    background: var(--color-surface-soft);
+    border: 1px solid var(--color-border);
+    border-radius: 9px;
 }
 
 .commentEditTextarea {
     width: 100%;
-    min-height: 120px;
-    background-color: rgba(249, 249, 250, 1);
-    border: none;
-    resize: none;
-    outline: none;
-    padding: 16px;
+    min-height: 110px;
+    padding: 13px;
+    resize: vertical;
+    background: transparent;
+    border: 0;
+    outline: 0;
     font-size: 14px;
-    line-height: 1.4;
-    color: #000;
+    line-height: 1.6;
 }
 
 .commentEditActions {
     display: flex;
     justify-content: flex-end;
-    gap: 8px;
-    padding: 8px 12px;
-    border-top: 1px solid rgba(238, 238, 241, 1);
-    background-color: rgba(249, 249, 250, 1);
+    gap: 6px;
+    padding: 8px;
+    border-top: 1px solid var(--color-border);
 }
 
 .commentEditActions button {
-    padding: 6px 16px;
-    border-radius: 12px;
-    font-size: 12px;
-    line-height: 14px;
-    letter-spacing: -0.01em;
-    cursor: pointer;
+    min-height: 30px;
+    padding: 0 12px;
+    border-radius: 6px;
+    font-size: 11px;
     font-weight: 600;
-    transition: background-color 0.2s ease, color 0.2s ease,
-        border-color 0.2s ease;
 }
 
 .commentEditSave {
-    background-color: #7f6aee;
     color: #fff;
-    border: none;
+    background: var(--color-primary);
+    border: 0;
 }
 
 .commentEditCancel {
-    background-color: #f3f0ff;
-    color: #5e48d8;
-    border: 1px solid #d8d1ff;
+    color: var(--color-muted);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
 }
 
-.commentEditSave:hover {
-    background-color: #6f58e8;
-}
+@media (max-width: 560px) {
+    .commentItem {
+        padding: 14px;
+    }
 
-.commentEditCancel:hover {
-    background-color: #e7e2ff;
+    .commentInfoHeader {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .commentInfoHeader span {
+        width: 100%;
+        margin-left: 0;
+    }
 }

@@ -1,6 +1,10 @@
 import { getServerUrl } from '../utils/function.js';
 import { requestJson } from '../utils/request.js';
 
+export const getPostCategories = () => {
+    return requestJson(`${getServerUrl()}/post-categories`);
+};
+
 export const createPost = boardData => {
     const result = requestJson(`${getServerUrl()}/posts`, {
         method: 'POST',

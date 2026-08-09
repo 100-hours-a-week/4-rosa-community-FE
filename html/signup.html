@@ -1,77 +1,90 @@
 <!doctype html>
 <html lang="kr">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="/config.js"></script>
-    <link
-            rel="stylesheet"
-            href="../css/login.css"
-            crossorigin="anonymous"
-    />
+    <link rel="stylesheet" href="../css/login.css" crossorigin="anonymous" />
     <title>회원가입</title>
-</head>
-<body>
-<section class="wrap">
-    <h1 class="title">회원가입</h1>
-    <article>
-        <div class="inputBox">
-            <label for="email">이메일</label>
-            <input
-                    type="text"
-                    name="email"
-                    id="email"
-                    placeholder="이메일을 입력하세요"
-            />
-            <p class="helperText" name="email"></p>
+  </head>
+  <body class="auth-page signup-page">
+    <main class="authShell">
+      <section class="authVisual" aria-hidden="true">
+        <div class="authVisualShade"></div>
+        <div class="authVisualContent">
+          <p>TRIPFEED · TRAVEL COMMUNITY</p>
+          <h1>여행을 찾고,<br />기록하고,<br />함께하세요!</h1>
+          <span>정보를 찾고 기록을 공유하며, 질문하고 동행을 만나보세요.</span>
         </div>
-        <div class="inputBox">
-            <label for="pw">비밀번호</label>
-            <input
-                    type="password"
-                    name="pw"
-                    id="pw"
-                    placeholder="비밀번호를 입력하세요"
-            />
-            <p class="helperText" name="pw"></p>
+      </section>
+      <section class="authPanel">
+        <div class="authContent">
+          <div class="authHeading">
+            <a class="authBrand" href="/">TRIPFEED</a>
+            <h1 class="title">회원 가입</h1>
+            <p>계정을 만들고 나만의 여행 피드를 시작하세요.</p>
+          </div>
+          <article>
+            <div class="inputBox">
+              <label for="email">이메일</label>
+              <input
+                type="text"
+                name="email"
+                id="email"
+                placeholder="이메일을 입력하세요"
+              />
+              <p class="helperText" name="email"></p>
+            </div>
+            <div class="inputBox">
+              <label for="pw">비밀번호</label>
+              <input
+                type="password"
+                name="pw"
+                id="pw"
+                placeholder="비밀번호를 입력하세요"
+              />
+              <p class="helperText" name="pw"></p>
+            </div>
+            <div class="inputBox">
+              <label for="pwck">비밀번호 확인</label>
+              <input
+                type="password"
+                name="pw"
+                id="pwck"
+                placeholder="비밀번호를 한번 더 입력하세요"
+              />
+              <p class="helperText" name="pwck"></p>
+            </div>
+            <div class="inputBox">
+              <label for="nickname">닉네임</label>
+              <input
+                type="text"
+                name="nickname"
+                id="nickname"
+                placeholder="닉네임을 입력해 주세요"
+              />
+              <p class="helperText" name="nickname"></p>
+            </div>
+            <div class="inputBox">
+              <label for="profile">프로필 사진</label>
+              <input
+                type="file"
+                name="profile"
+                id="profile"
+                placeholder="프로필 사진을 업로드 해주세요"
+                accept="image/*"
+              />
+            </div>
+            <div class="buttons">
+              <button id="signupBtn">회원 가입</button>
+              <p class="authSwitch">
+                이미 계정이 있나요? <a href="login.html">로그인</a>
+              </p>
+            </div>
+          </article>
         </div>
-        <div class="inputBox">
-            <label for="pwck">비밀번호 확인</label>
-            <input
-                    type="password"
-                    name="pw"
-                    id="pwck"
-                    placeholder="비밀번호를 한번 더 입력하세요"
-            />
-            <p class="helperText" name="pwck"></p>
-        </div>
-        <div class="inputBox">
-            <label for="nickname">닉네임</label>
-            <input
-                    type="text"
-                    name="nickname"
-                    id="nickname"
-                    placeholder="닉네임을 입력해 주세요"
-            />
-            <p class="helperText" name="nickname"></p>
-        </div>
-        <div class="inputBox">
-            <label for="profile">프로필 사진</label>
-            <input
-                    type="file"
-                    name="profile"
-                    id="profile"
-                    placeholder="프로필 사진을 업로드 해주세요"
-                    accept="image/*"
-            />
-        </div>
-        <div class="buttons">
-            <button id="signupBtn">회원 가입</button>
-            <a href="login.html">로그인 하러가기</a>
-        </div>
-    </article>
-</section>
-<div class="background"></div>
-</body>
-<script src="../js/signup.js" type="module"></script>
+      </section>
+    </main>
+    <script src="../js/signup.js" type="module"></script>
+  </body>
 </html>

@@ -2,169 +2,527 @@
 @import url('../component/board/boardItem.css');
 @import url('../component/header/header.css');
 
-.boardList {
-    width: 100%;
-    height: 100%;
+.feed-page .wrap {
+    padding-top: 34px;
+}
+
+.feedHero {
+    position: relative;
+    min-height: 390px;
+    overflow: hidden;
+    color: #fff;
+    background: var(--color-primary) url('/public/background/tripfeed_hero.jpg') center 48% / cover no-repeat;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.feedHeroOverlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(10, 28, 39, 0.9) 0%, rgba(10, 28, 39, 0.53) 46%, rgba(10, 28, 39, 0.08) 76%);
+}
+
+.feedHeroContent {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
-    row-gap: 16px;
-    overflow-y: scroll;
+    justify-content: center;
+    width: min(590px, 100%);
+    min-height: 390px;
+    padding: 56px;
+}
+
+.feedHero .eyebrow {
+    margin-bottom: 18px;
+    color: #75d5d1;
+}
+
+.feedHero h1 {
+    font-family: var(--font-sans);
+    font-size: clamp(38px, 5vw, 60px);
+    font-weight: 700;
+    line-height: 1.14;
+    letter-spacing: -0.045em;
+}
+
+.feedHeroContent > p:last-child {
+    max-width: 450px;
+    margin-top: 22px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 15px;
+    line-height: 1.75;
 }
 
 .write {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* 중앙 정렬에서 시작 정렬로 변경 */
-    justify-content: center;
-    row-gap: 24px;
-    padding: 40px 0 10px 0;
-    width: 100%; /* .write 영역이 부모 컨테이너의 전체 너비를 차지하도록 설정 */
-}
-
-.write h2 {
-    font-size: 24px;
-    font-weight: 400;
-    line-height: 32px;
-    letter-spacing: -0.02em;
-    color: rgba(69, 72, 84, 1);
-    text-align: center;
-    width: 100%; /* h2도 중앙 정렬을 유지하도록 설정 */
-}
-
-.write a {
-    margin-left: auto; /* 링크를 오른쪽으로 밀어붙임 */
-    margin-right: 10px;
-    padding: 7px 32px;
-    border-radius: 18px;
-    background-color: #aca0eb;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 26px;
-    letter-spacing: -0.02em;
-    color: #ffffff;
-}
-
-.searchRow {
+    gap: 24px;
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 12px;
+    padding: 64px 0 24px;
 }
 
-.sortRow {
-    width: 100%;
+html.categoryPage .feedHero {
+    display: none;
+}
+
+html.categoryPage .feed-page .write {
+    padding-top: 34px;
+}
+
+.sectionIntro {
     display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin-top: -12px;
+    align-items: end;
+    justify-content: space-between;
+    gap: 32px;
+}
+
+.sectionIntro .eyebrow {
     margin-bottom: 8px;
 }
 
+.sectionIntro h2 {
+    font-family: var(--font-sans);
+    font-size: clamp(27px, 3vw, 36px);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.035em;
+}
+
+.sectionDescription {
+    color: var(--color-muted);
+    font-size: 14px;
+}
+
+.searchRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.searchBox {
+    position: relative;
+    flex: 1 1 auto;
+    max-width: 440px;
+}
+
+.searchInput {
+    width: 100%;
+    height: 46px;
+    padding: 0 46px 0 16px;
+    color: var(--color-text);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.searchInput::placeholder {
+    color: #8797a1;
+}
+
+.searchInput:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(12, 30, 46, 0.11);
+}
+
+.searchButton {
+    position: absolute;
+    top: 50%;
+    right: 9px;
+    display: inline-grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    color: var(--color-primary);
+    background: transparent;
+    border: 0;
+    border-radius: 7px;
+    transform: translateY(-50%);
+}
+
+.searchButton:hover {
+    background: var(--color-surface-soft);
+}
+
+#writeLink {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    margin-left: auto;
+    padding: 0 22px;
+    color: #fff;
+    background: var(--color-primary);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+#writeLink:hover {
+    background: var(--color-primary-soft);
+    transform: translateY(-1px);
+}
+
+.sortRow {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: -10px;
+}
+
 .sortBox {
-    margin-right: 10px;
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 6px 10px;
-    border-radius: 12px;
-    border: 1px solid #e5e5e5;
-    background-color: #ffffff;
+    padding: 7px 11px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
 }
 
 .sortIcon {
-    color: #7f6aee;
+    color: var(--color-accent);
 }
 
-.sortLabel {
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: -0.02em;
-    color: #454854;
+.sortLabel,
+.sortSelect {
+    color: var(--color-muted);
+    font-size: 13px;
 }
 
 .sortSelect {
-    border: none;
     background: transparent;
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: -0.02em;
-    color: #454854;
-    padding: 2px 4px;
-    outline: none;
-    cursor: pointer;
-}
-
-.sortSelect:focus-visible {
-    outline: 2px solid #7f6aee;
-    outline-offset: 2px;
-    border-radius: 6px;
+    border: 0;
+    outline: 0;
 }
 
 .isHidden {
     display: none;
 }
 
-.searchBox {
-    flex: 1 1 auto;
-    max-width: 520px;
-    margin-left: 10px;
-    position: relative;
-}
-
-.searchInput {
+.boardList {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
     width: 100%;
-    height: 40px;
-    padding: 0 44px 0 16px;
-    border-radius: 12px;
-    border: 1px solid #e5e5e5;
-    background-color: #ffffff;
-    font-size: 16px;
-    line-height: 26px;
-    letter-spacing: -0.02em;
-    color: #454854;
-    outline: none;
 }
 
-.searchInput::placeholder {
-    color: #a9acb8;
+.boardSkeleton {
+    height: 100%;
+    overflow: hidden;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
 }
 
-.searchInput:focus {
-    border-color: #aca0eb;
-    box-shadow: 0 0 0 3px rgba(172, 160, 235, 0.2);
+.skeletonBlock {
+    background: linear-gradient(
+        90deg,
+        #dce5e8 25%,
+        #eef4f5 50%,
+        #dce5e8 75%
+    );
+    background-size: 200% 100%;
+    animation: skeletonShimmer 1.4s ease-in-out infinite;
 }
 
-.searchButton {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
+.skeletonThumbnail {
+    aspect-ratio: 4 / 3;
+}
+
+.skeletonContent {
+    display: flex;
+    flex-direction: column;
+    min-height: 176px;
+    padding: 18px;
+}
+
+.skeletonBadge {
+    width: 50px;
+    height: 20px;
+    border-radius: 4px;
+}
+
+.skeletonCopy {
+    display: flex;
+    flex-direction: column;
+}
+
+.skeletonTitle {
+    width: 72%;
+    height: 18px;
+    margin-top: 15px;
+    border-radius: 4px;
+}
+
+.skeletonLine {
+    width: 92%;
+    height: 11px;
+    margin-top: 10px;
+    border-radius: 3px;
+}
+
+.skeletonMeta,
+.skeletonAuthor {
+    display: flex;
+    align-items: center;
+}
+
+.skeletonMeta {
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: auto;
+}
+
+.skeletonAuthor {
+    gap: 9px;
+}
+
+.skeletonAvatar {
     width: 28px;
     height: 28px;
-    border: none;
-    border-radius: 8px;
-    background-color: transparent;
-    color: #7f6aee;
-    cursor: pointer;
+    border-radius: 50%;
+}
+
+.skeletonAuthorLine {
+    width: 66px;
+    height: 10px;
+    border-radius: 3px;
+}
+
+.skeletonStats {
+    width: 72px;
+    height: 10px;
+    border-radius: 3px;
+}
+
+.boardList.reviewFeed .boardSkeleton {
+    position: relative;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    border: 0;
+}
+
+.boardList.reviewFeed .skeletonThumbnail {
+    position: absolute;
+    inset: 0;
+    aspect-ratio: auto;
+}
+
+.boardList.reviewFeed .skeletonContent {
+    position: absolute;
+    inset: 0;
+    justify-content: flex-end;
+    min-height: 0;
+    padding: 20px;
+    background: linear-gradient(
+        0deg,
+        rgba(8, 23, 32, 0.34) 0%,
+        rgba(8, 23, 32, 0) 68%
+    );
+}
+
+.boardList.reviewFeed .skeletonBadge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+}
+
+.boardList.reviewFeed .skeletonTitle {
+    margin-top: 0;
+}
+
+.boardList.listFeed .boardSkeleton {
+    border-radius: 10px;
+}
+
+.boardList.listFeed .skeletonThumbnail {
+    display: none;
+}
+
+.boardList.listFeed .skeletonContent {
+    display: grid;
+    grid-template-columns: 58px minmax(0, 1fr) minmax(240px, auto);
+    align-items: center;
+    gap: 16px;
+    min-height: 82px;
+    padding: 12px 18px;
+}
+
+.boardList.listFeed .skeletonBadge {
+    width: 44px;
+    height: 26px;
+}
+
+.boardList.listFeed .skeletonTitle {
+    width: min(360px, 72%);
+    height: 16px;
+    margin-top: 0;
+}
+
+.boardList.listFeed .skeletonLine {
+    display: none;
+}
+
+.boardList.listFeed .skeletonMeta {
+    margin-top: 0;
+}
+
+@keyframes skeletonShimmer {
+    from {
+        background-position: 200% 0;
+    }
+
+    to {
+        background-position: -200% 0;
+    }
+}
+
+.emptyState {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    padding: 42px 24px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.54);
+    border: 1px dashed rgba(12, 30, 46, 0.18);
+    border-radius: var(--radius-md);
+}
+
+.emptyState > span {
+    color: var(--color-accent);
+    font-size: 24px;
+}
+
+.emptyState h3 {
+    margin-top: 13px;
+    font-family: var(--font-sans);
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.emptyState p {
+    margin-top: 6px;
+    color: var(--color-muted);
+    font-size: 13px;
+}
+
+.emptyState a {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-}
-
-.searchButton:hover {
-    background-color: rgba(172, 160, 235, 0.15);
-}
-
-.searchButton:focus-visible {
-    outline: 2px solid #7f6aee;
-    outline-offset: 2px;
-}
-
-b {
+    min-height: 40px;
+    margin-top: 20px;
+    padding: 0 17px;
+    color: #fff;
+    background: var(--color-primary);
+    border-radius: 7px;
+    font-size: 12px;
     font-weight: 700;
 }
 
-.write a:hover {
-    background-color: #7f6aee; /* 여기서 색상을 원하는 색으로 변경하세요 */
+@media (max-width: 920px) {
+    .boardList {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 700px) {
+    .feed-page .wrap {
+        padding-top: 16px;
+    }
+
+    .feedHero,
+    .feedHeroContent {
+        min-height: 400px;
+    }
+
+    .feedHero {
+        border-radius: var(--radius-md);
+        background-position: 61% center;
+    }
+
+    .feedHeroOverlay {
+        background: linear-gradient(0deg, rgba(10, 28, 39, 0.94) 0%, rgba(10, 28, 39, 0.35) 68%, rgba(10, 28, 39, 0.1) 100%);
+    }
+
+    .feedHeroContent {
+        justify-content: flex-end;
+        padding: 32px 24px;
+    }
+
+    .feedHero h1 {
+        font-size: 37px;
+    }
+
+    .write {
+        padding-top: 44px;
+    }
+
+    html.categoryPage .feed-page .write {
+        padding-top: 26px;
+    }
+
+    .sectionIntro {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .searchRow {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .searchBox {
+        max-width: none;
+    }
+
+    #writeLink {
+        margin-left: 0;
+    }
+
+    .boardList {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .boardList.listFeed .skeletonContent {
+        grid-template-columns: auto 1fr;
+        gap: 10px;
+        padding: 12px;
+    }
+
+    .boardList.reviewFeed .skeletonContent {
+        padding: 17px;
+    }
+
+    .boardList.listFeed .skeletonBadge {
+        grid-column: 1;
+    }
+
+    .boardList.listFeed .skeletonCopy {
+        grid-column: 2;
+    }
+
+    .boardList.listFeed .skeletonMeta {
+        grid-column: 1 / -1;
+        width: 100%;
+        padding-top: 10px;
+        border-top: 1px solid var(--color-border);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skeletonBlock {
+        animation: none;
+    }
 }

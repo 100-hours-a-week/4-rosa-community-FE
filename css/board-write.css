@@ -1,96 +1,181 @@
 @import url('./common/layout.css');
 @import url('../component/header/header.css');
 
-.wrap {
+.editor-page {
+    background:
+        radial-gradient(circle at 8% 10%, rgba(10, 146, 146, 0.08), transparent 28%),
+        var(--color-bg);
+}
+
+.editor-page .wrap {
+    width: min(100%, 820px);
+}
+
+.editorCard {
     width: 100%;
-    padding-left: 16px;
-    padding-right: 16px;
-
-    justify-content: flex-start;
-    row-gap: 16px;
+    padding: 46px 52px 52px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
 }
 
-h2 {
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 31px;
-    letter-spacing: -0.02em;
-    text-align: center;
-    color: rgba(69, 72, 84, 1);
+.editorHeading {
+    margin-bottom: 38px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid var(--color-border);
 }
 
-.inputBox {
+.editorHeading .eyebrow {
+    margin-bottom: 8px;
+}
+
+.editorHeading h1 {
+    font-family: var(--font-sans);
+    font-size: clamp(31px, 5vw, 42px);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+}
+
+.editorHeading > p:last-child {
+    margin-top: 9px;
+    color: var(--color-muted);
+    font-size: 14px;
+}
+
+.editorCard .inputBox {
     display: flex;
     flex-direction: column;
-    row-gap: 8px;
+    gap: 9px;
     width: 100%;
+    margin-top: 24px;
 }
 
-.inputBox label {
-    font-size: 14px;
-    line-height: 17px;
-    letter-spacing: -0.02em;
+.editorCard .inputBox > label {
+    color: var(--color-text);
+    font-size: 13px;
     font-weight: 700;
-    color: rgba(69, 72, 84, 1);
-
-    padding: 16px 16px;
-
-    border-bottom: 1px solid #00000029;
 }
-.inputBox input {
+
+.editorCard .inputBox > label span {
+    color: var(--color-accent);
+}
+
+.editorCard input[type='text'],
+.editorCard select,
+.editorCard textarea {
     width: 100%;
-    padding: 16px;
-    border: none;
-    border-bottom: 1px solid #00000029;
-    background-color: transparent;
+    padding: 14px 15px;
+    color: var(--color-text);
+    background: var(--color-surface-soft);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    outline: 0;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.inputBox textarea {
+.editorCard input[type='text'],
+.editorCard select {
+    height: 48px;
+}
+
+.editorCard select {
+    appearance: none;
+    padding-right: 42px;
+    background-image:
+        linear-gradient(45deg, transparent 50%, var(--color-muted) 50%),
+        linear-gradient(135deg, var(--color-muted) 50%, transparent 50%);
+    background-position:
+        calc(100% - 19px) 20px,
+        calc(100% - 14px) 20px;
+    background-repeat: no-repeat;
+    background-size: 5px 5px, 5px 5px;
+}
+
+.editorCard textarea {
+    min-height: 300px;
+    resize: vertical;
+    line-height: 1.75;
+}
+
+.editorCard input:focus,
+.editorCard select:focus,
+.editorCard textarea:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(12, 30, 46, 0.1);
+}
+
+.editorCard input[type='file'] {
     width: 100%;
-    padding: 16px;
-    height: 200px;
-    resize: none;
-    outline: none;
-
-    border: none;
-    border-bottom: 1px solid #00000029;
-    background-color: transparent;
+    padding: 10px;
+    color: var(--color-muted);
+    background: var(--color-surface-soft);
+    border: 1px dashed rgba(12, 30, 46, 0.22);
+    border-radius: var(--radius-sm);
+    font-size: 12px;
 }
 
-.wrap button {
-    width: 80%;
-    height: 33px;
-    margin-top: 20px;
-    border-radius: 4px;
-    cursor: pointer;
-
-    background-color: #aca0eb;
-
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 16.8px;
-    letter-spacing: -0.02em;
-    text-align: center;
-    color: rgba(255, 255, 255, 1);
-
-    border: none;
+.editorCard input[type='file']::file-selector-button {
+    margin-right: 12px;
+    padding: 7px 12px;
+    color: var(--color-primary);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font-weight: 650;
 }
 
-.non-border {
-    border: none !important;
-    padding: 0 16px !important;
+#imagePreviewText {
+    color: var(--color-muted);
+    font-size: 12px;
 }
 
 .deleteFile {
+    padding-left: 8px;
+    color: var(--color-danger);
     cursor: pointer;
-    padding-left: 10px;
-    color: red;
 }
 
-.helperText {
-    color: #f00;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
+.uploadNotice {
+    margin-top: 8px;
+    color: var(--color-muted);
+    font-size: 11px;
+}
+
+.editorCard #submit {
+    width: 100%;
+    min-height: 48px;
+    margin-top: 32px;
+    color: #fff;
+    background: var(--color-primary) !important;
+    border: 0;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 700;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.editorCard #submit:not(:disabled):hover {
+    background: var(--color-primary-soft) !important;
+    transform: translateY(-1px);
+}
+
+.editorCard #submit:disabled {
+    cursor: not-allowed;
+    opacity: 0.42;
+}
+
+@media (max-width: 700px) {
+    .editorCard {
+        padding: 32px 20px 28px;
+        border-radius: var(--radius-md);
+    }
+
+    .editorHeading {
+        margin-bottom: 26px;
+    }
+
+    .editorCard textarea {
+        min-height: 240px;
+    }
 }

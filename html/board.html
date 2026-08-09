@@ -1,63 +1,144 @@
 <!doctype html>
 <html lang="kr">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="/config.js"></script>
-    <link
-            rel="stylesheet"
-            href="../css/board.css"
-            crossorigin="anonymous"
-    />
-    <title>게시판 상세</title>
-</head>
-<body>
-<section class="wrap">
-    <section class="head">
-        <h1 class="title"></h1>
-        <div class="writerWrap">
+    <link rel="stylesheet" href="../css/board.css" crossorigin="anonymous" />
+    <title>여행 이야기 — TRIPFEED</title>
+  </head>
+  <body class="site-page detail-page is-detail-loading">
+    <div class="detailHero" aria-hidden="true">
+      <div class="contentImg"></div>
+      <div class="detailHeroShade"></div>
+    </div>
+    <main class="wrap detailWrap" aria-busy="true">
+      <article class="detailCard">
+        <section class="head">
+          <p class="eyebrow detailCategory"></p>
+          <h1 class="title">
+            <span class="detailTitleSkeleton" aria-hidden="true">
+              <span></span>
+              <span></span>
+            </span>
+          </h1>
+          <div class="writerWrap">
             <picture class="profileImg">
-                <img class="img" src="/public/profile_default.svg" />
+              <img
+                class="img"
+                src="/public/profile_default.svg"
+                alt="작성자 프로필"
+              />
             </picture>
-            <h2 class="nickname"></h2>
-            <h3 class="createdAt"></h3>
+            <div class="writerText">
+              <h2 class="nickname"><span aria-hidden="true"></span></h2>
+              <h3 class="createdAt"><span aria-hidden="true"></span></h3>
+            </div>
             <div class="mod hidden">
-                <button id="modifyBtn">수정</button>
-                <button id="deleteBtn">삭제</button>
+              <button id="modifyBtn">수정</button>
+              <button id="deleteBtn">삭제</button>
             </div>
-        </div>
-    </section>
-    <section class="body">
-        <div class="contentImg"></div>
-        <article class="content"></article>
-        <article class="bodyWrap">
+          </div>
+        </section>
+        <section class="body">
+          <div class="content">
+            <div class="detailContentSkeleton" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+          <div class="bodyWrap">
             <div class="commentWrap">
-                <button class="countItem likeButton" type="button" aria-pressed="false">
-                    <h3></h3>
-                    <p>좋아요수</p>
-                </button>
-                <div class="countItem viewCount">
-                    <h3></h3>
-                    <p>조회수</p>
-                </div>
-                <div class="countItem commentCount">
-                    <h3></h3>
-                    <p>댓글</p>
-                </div>
+              <button
+                class="countItem likeButton"
+                type="button"
+                aria-pressed="false"
+              >
+                <svg
+                  class="countIcon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <use href="/public/icons/post-stats.svg#heart"></use>
+                </svg>
+                <h3></h3>
+                <p>좋아요</p>
+              </button>
+              <div class="countItem commentCount">
+                <svg
+                  class="countIcon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <use href="/public/icons/post-stats.svg#comment"></use>
+                </svg>
+                <h3></h3>
+                <p>댓글</p>
+              </div>
+              <div class="countItem viewCount">
+                <svg
+                  class="countIcon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <use href="/public/icons/post-stats.svg#view"></use>
+                </svg>
+                <h3></h3>
+                <p>조회</p>
+              </div>
             </div>
-        </article>
-    </section>
-    <section class="comment">
-        <div class="commentInputWrap">
-            <textarea placeholder="댓글을 남겨주세요!"></textarea>
-            <div>
-                <button class="commentInputBtn">댓글 등록</button>
-            </div>
+          </div>
+        </section>
+      </article>
+      <section class="comment" aria-labelledby="commentTitle">
+        <div class="commentHeading">
+          <p class="eyebrow">COMMENTS</p>
+          <h2 id="commentTitle">댓글</h2>
         </div>
-        <div class="commentList"></div>
-    </section>
-</section>
-<div class="background"></div>
-</body>
-<script src="../js/board.js" type="module"></script>
+        <div class="commentInputWrap">
+          <textarea placeholder="댓글을 남겨 생각을 나눠보세요."></textarea>
+          <div>
+            <button class="commentInputBtn">댓글 등록</button>
+          </div>
+        </div>
+        <div class="commentList" aria-busy="true">
+          <div class="commentSkeleton" aria-hidden="true">
+            <span class="commentSkeletonAvatar"></span>
+            <div>
+              <span class="commentSkeletonMeta"></span>
+              <span class="commentSkeletonLine"></span>
+              <span class="commentSkeletonLine short"></span>
+            </div>
+          </div>
+          <div class="commentSkeleton" aria-hidden="true">
+            <span class="commentSkeletonAvatar"></span>
+            <div>
+              <span class="commentSkeletonMeta"></span>
+              <span class="commentSkeletonLine"></span>
+              <span class="commentSkeletonLine short"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="../js/board.js" type="module"></script>
+  </body>
 </html>
