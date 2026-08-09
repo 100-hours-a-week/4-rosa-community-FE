@@ -71,20 +71,19 @@ const BoardItem = (
                     <div class="info" aria-label="게시글 통계">
                         <span title="좋아요">
                             <svg class="statIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                <path d="M12 20.2C10.6 18.9 4.5 14.7 3 11.3 1.4 7.8 3.4 4.5 6.8 4.5c2.2 0 4.1 1.3 5.2 3.1 1.1-1.8 3-3.1 5.2-3.1 3.4 0 5.4 3.3 3.8 6.8-1.5 3.4-7.6 7.6-9 8.9Z"></path>
+                                <use href="/public/icons/post-stats.svg#heart"></use>
                             </svg>
                             <b>${likeCount}</b>
                         </span>
                         <span title="댓글">
                             <svg class="statIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                <path d="M6.5 4.5h11A3.5 3.5 0 0 1 21 8v6a3.5 3.5 0 0 1-3.5 3.5H11L5 21v-4.2A3.5 3.5 0 0 1 3 14V8a3.5 3.5 0 0 1 3.5-3.5Z"></path>
+                                <use href="/public/icons/post-stats.svg#comment"></use>
                             </svg>
                             <b>${commentCount}</b>
                         </span>
                         <span title="조회수">
                             <svg class="statIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                <path d="M2.5 12s3.2-6.2 9.5-6.2 9.5 6.2 9.5 6.2-3.2 6.2-9.5 6.2S2.5 12 2.5 12Z"></path>
-                                <circle cx="12" cy="12" r="3"></circle>
+                                <use href="/public/icons/post-stats.svg#view"></use>
                             </svg>
                             <b>${viewCount}</b>
                         </span>
